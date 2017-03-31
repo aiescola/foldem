@@ -226,13 +226,15 @@ public class Poker {
 		 * information or if we have specified to include suited hands.
 		 */
 		if (length == 2 || (length == 3 && shorthand.charAt(2) == 's')) {
-			if (a == b && length == 3) {
+			if (a != b) {
+				for (Suit suit : Suit.values()) {
+					hands.add(hand(card(a, suit), card(b, suit)));
+				}
+			} else if (length == 3) {
 				throw new IllegalArgumentException(
 						"A hand cannot have identical cards of the same suit");
 			}
-			for (Suit suit : Suit.values()) {
-				hands.add(hand(card(a, suit), card(b, suit)));
-			}
+
 		}
 
 		/*
@@ -240,12 +242,17 @@ public class Poker {
 		 * information or if we have specified to include non-suited hands.
 		 */
 		if (length == 2 || (length == 3 && shorthand.charAt(2) == 'o')) {
+			
 			/*
 			 * Add all off-suit combinations of the provided hand.
 			 */
 			for (Suit[] suits : Constants.OFFSUIT_COMBINATIONS) {
-				hands.add(hand(card(a, suits[0]), card(b, suits[1])));
-
+				Hand h = hand(card(a, suits[0]), card(b, suits[1]));
+				
+				if (!hands.contains(h)) {
+					hands.add(hand(card(a, suits[0]), card(b, suits[1])));
+				}
+				
 				/*
 				 * We only need to reverse the suits if A and B aren't
 				 * equivalent.
