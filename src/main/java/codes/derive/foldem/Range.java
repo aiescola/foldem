@@ -293,10 +293,8 @@ public class Range {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((constant == null) ? 0 : constant.hashCode());
-		result = prime * result
-				+ ((weighted == null) ? 0 : weighted.hashCode());
+		result = prime * result + constant.hashCode();
+		result = prime * result + weighted.hashCode();
 		return result;
 	}
 
