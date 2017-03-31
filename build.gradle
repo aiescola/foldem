@@ -34,8 +34,8 @@ jacocoTestReport {
 apply plugin: 'com.jfrog.bintray'
 
 bintray {
-	user = project.property('btUser')
-	key = project.property('btKey')
+	user = project.hasProperty('btUser') ? project.property('btUser') : ''
+	key = project.hasProperty('btKey') ? project.property('btKey') : ''
 	pkg {
 		repo = 'pub'	
 		name = 'foldem'
@@ -44,12 +44,12 @@ bintray {
 		version {
             gpg {
                 sign = true
-                passphrase = project.property('signing.password')
+                passphrase = project.hasProperty('signing.password') ? project.property('signing.password') : ''
             }
             mavenCentralSync {
                 sync = true
-                user = project.property('mvnSyncUser')
-                password = project.property('mvnSyncPassword')
+                user = project.hasProperty('mvnSyncUser') ? project.property('mvnSyncUser') : ''
+                password = project.hasProperty('mvnSyncPassword') ? project.property('mvnSyncPassword') : ''
             }         
 			name = '1.0.2'
 			desc = 'A Texas Hold \'em Poker Analysis Framework for Java.'
