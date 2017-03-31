@@ -309,14 +309,8 @@ public class Range {
 		if (getClass() != obj.getClass())
 			return false;
 		Range other = (Range) obj;
-		if (constant == null) {
-			if (other.constant != null)
-				return false;
-		} else if (!constant.containsAll(other.constant))
+		if (!constant.containsAll(other.constant)) {
 			return false;
-		if (weighted == null) {
-			if (other.weighted != null)
-				return false;
 		} else if (!weighted.equals(other.weighted))
 			return false;
 		return true;

@@ -102,10 +102,7 @@ public class Hand {
 		if (getClass() != obj.getClass())
 			return false;
 		Hand other = (Hand) obj;
-		if (cards == null) {
-			if (other.cards != null)
-				return false;
-		} else if (!cards.containsAll(other.cards))
+		if (!cards.containsAll(other.cards))
 			return false;
 		return true;
 	}
