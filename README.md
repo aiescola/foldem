@@ -27,7 +27,7 @@ Add the following dependency to your `pom.xml` file to add the library to your p
 <dependency>
 	<groupId>codes.derive</groupId>
 	<artifactId>foldem</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.2</version>
 	<type>pom</type>
 </dependency>
 ```
@@ -36,7 +36,7 @@ Add the following dependency to your `pom.xml` file to add the library to your p
 
 You can include Fold'em using the following directive:
 ```
-compile 'codes.derive:foldem:1.0.0'
+compile 'codes.derive:foldem:1.0.2'
 ```
 
 If you would like to compile Fold'em locally using Gradle, you can simply run the following commands:
@@ -47,7 +47,7 @@ cd foldem
 ```
 
 ## Documentation
-A Javadoc for Fold'em is available [here](http://javadoc.io/doc/codes.derive/foldem/1.0.1). Additionally some examples have been provided in this repository [here](/src/main/java/codes/derive/foldem/example). An effort has been made to keep this library as simple as possible to use. Some more basic usage examples have been provided in the section below.
+A Javadoc for Fold'em is available [here](http://javadoc.io/doc/codes.derive/foldem/1.0.2). Additionally some examples have been provided in this repository [here](/src/main/java/codes/derive/foldem/example). An effort has been made to keep this library as simple as possible to use. Some more basic usage examples have been provided in the section below.
 
 ### Basic Usage Guide
 Most of this project's functionality is provided in the `codes.derive.foldem` package. In this package there is a helper class called `Poker` containing static functions for creating and working with the data types this project exposes. (TODO move links to point to Javadoc once its up)
@@ -172,7 +172,7 @@ for (HandValue value : frequencies.keySet()) {
 
 ```
 
-If you're looking for specific functionality or looking to expand on existing functionality it is suggested that you check out [the Javadoc](http://javadoc.io/doc/codes.derive/foldem/1.0.1). A great effort has been made to keep the Javadoc as informative and coherent as possible.
+If you're looking for specific functionality or looking to expand on existing functionality it is suggested that you check out [the Javadoc](http://javadoc.io/doc/codes.derive/foldem/1.0.2). A great effort has been made to keep the Javadoc as informative and coherent as possible.
 
 ### More About
 *Fold'em is a GPL licensed module in a larger proprietary project with functionality similar to projects like [CREV](http://gtorangebuilder.com/). Among other things, it includes high-level types for representing and working game trees as well as improvements on this library such as faster implementations of `codes.derive.foldem.eval.Evaluator`.*
