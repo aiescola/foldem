@@ -87,6 +87,9 @@ public class PrettyFormat {
 		for (Card card : board.cards()) {
 			bldr.append(get(card)).append(", ");
 		}
+		if (bldr.length() < 2) {
+			return "";
+		}
 		return bldr.substring(0, bldr.length() - 2).toString();
 	}
 

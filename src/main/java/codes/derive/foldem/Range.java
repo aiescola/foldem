@@ -49,6 +49,7 @@ public class Range {
 	 */
 	public Range define(Hand hand) {
 		if (contains(hand)) {
+			System.out.println(hand);
 			throw new IllegalArgumentException("Hand already exists within range");
 		}
 		constant.add(hand);
@@ -205,9 +206,17 @@ public class Range {
 	 * @return The sampled {@link Hand}.
 	 */
 	public Hand sample(Random random) {
-		if (constant.size() == 0) {
-			throw new IllegalStateException(
-					"There needs to be at least one constant hand");
+		
+		/*
+		 * Make sure we're going to have enough hands to sample at correct
+		 * frequencies.
+		 */
+		double weightTotal = 1.0 * constant.size();
+		for (Double weight : weighted.keySet()) {
+			weightTotal += weight;
+		}
+		if (weightTotal < 1.0) {
+			throw new IllegalStateException("Too few hands for accurate sample");
 		}
 
 		/*
@@ -267,7 +276,7 @@ public class Range {
 	@Override
 	public String toString() {
 		StringBuilder bldr = new StringBuilder().append(Range.class.getName());
-		bldr.append("[ ");
+		bldr.append("[");
 		for (Hand hand : constant) {
 			bldr.append(hand);
 			bldr.append(",");
@@ -284,10 +293,8 @@ public class Range {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((constant == null) ? 0 : constant.hashCode());
-		result = prime * result
-				+ ((weighted == null) ? 0 : weighted.hashCode());
+		result = prime * result + constant.hashCode();
+		result = prime * result + weighted.hashCode();
 		return result;
 	}
 
@@ -300,14 +307,8 @@ public class Range {
 		if (getClass() != obj.getClass())
 			return false;
 		Range other = (Range) obj;
-		if (constant == null) {
-			if (other.constant != null)
-				return false;
-		} else if (!constant.containsAll(other.constant))
+		if (!constant.containsAll(other.constant)) {
 			return false;
-		if (weighted == null) {
-			if (other.weighted != null)
-				return false;
 		} else if (!weighted.equals(other.weighted))
 			return false;
 		return true;

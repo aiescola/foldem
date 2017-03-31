@@ -89,7 +89,7 @@ public class Hand {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((cards == null) ? 0 : cards.hashCode());
+		result = prime * result + cards.hashCode();
 		return result;
 	}
 
@@ -102,10 +102,7 @@ public class Hand {
 		if (getClass() != obj.getClass())
 			return false;
 		Hand other = (Hand) obj;
-		if (cards == null) {
-			if (other.cards != null)
-				return false;
-		} else if (!cards.containsAll(other.cards))
+		if (!cards.containsAll(other.cards))
 			return false;
 		return true;
 	}

@@ -184,7 +184,7 @@ public class Card {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((suit == null) ? 0 : suit.hashCode());
+		result = prime * result + suit.hashCode();
 		result = prime * result + value;
 		return result;
 	}
