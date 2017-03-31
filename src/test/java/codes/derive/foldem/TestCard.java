@@ -36,10 +36,19 @@ public class TestCard {
 	@Test
 	public void testStandardOverrides() {
 		assertEquals("Ac", card("Ac").toString());
-		assertFalse(card("Ac").equals(null));
-		assertFalse(card("Ac").equals(1));
-		assertFalse(card("Ac").equals(card("Ad")));
-
+		assertFalse(card("As").equals(null));
+		assertFalse(card("Ad").equals(1));
+		assertFalse(card("Ah").equals(card("Ad")));
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testBadValue() {
+		card("Zc");
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testBadSuit() {
+		card("Az");
 	}
 	
 }

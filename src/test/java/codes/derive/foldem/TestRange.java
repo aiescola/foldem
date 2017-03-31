@@ -27,6 +27,20 @@ public class TestRange {
 		Range range = range(hand("AsAh"));
 		range.define(0.5, hand("AsAh"));
 		assertEquals(0.5, range.weight(hand("AsAh")), 0.0);
+		range.define(0.6, hand("AsAh"));
+		assertEquals(0.6, range.weight(hand("AsAh")), 0.0);
+	}
+	
+	@Test
+	public void testNoDuplicateOnRedefinition() {
+		Range range = range().define(0.1, hand("AsAd"));
+		range.define(0.2, hand("AsAd"));
+		assertEquals(1, range.all().size());
+	}
+	
+	@Test
+	public void testNoWeight() {
+		assertEquals(0.0, range().weight(hand("AsAh")), 0.0);
 	}
 	
 	@Test
@@ -38,6 +52,12 @@ public class TestRange {
 	public void testContains() {
 		assertTrue(range(hand("AsAh")).contains(hand("AsAh")));
 		assertTrue(range().define(0.1, hand("AsAh")).contains(hand("AsAh")));
+		assertFalse(range().contains(hand("AsAh")));
+	}
+	
+	@Test
+	public void testRandomSampleNoException() {
+		range().define(hand("AsAh")).sample();
 	}
 	
 	@Test

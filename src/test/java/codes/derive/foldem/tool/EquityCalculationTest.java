@@ -27,6 +27,7 @@ import org.junit.Test;
 import codes.derive.foldem.Hand;
 import codes.derive.foldem.Range;
 import codes.derive.foldem.board.Boards;
+import codes.derive.foldem.eval.DefaultEvaluator;
 import codes.derive.foldem.tool.EquityCalculationBuilder.Equity;
 
 public class EquityCalculationTest {
@@ -82,6 +83,9 @@ public class EquityCalculationTest {
 		assertEquals(1.0-0.65, equityB.win(), ERROR_MARGIN);
 		assertEquals(1.0-0.34, equityB.lose(), ERROR_MARGIN);
 		
+		// convert one to string for coverage
+		equityA.toString();
+		
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
@@ -89,6 +93,12 @@ public class EquityCalculationTest {
 		equity(range(hand("QsQd")), range(hand("QsAc"), hand("AcQs")), range(hand("2s2d")));
 	}
 	
+	@Test(expected=IllegalArgumentException.class)
+	public void testRangeBoardConflict() {
+		EquityCalculationBuilder calc = calculationBuilder();
+		calc.useBoard(board("Qs2h3d9s"));
+		calc.calculate(range(hand("Qs2h")), range(hand("3d9s")));
+	}
 	
 	@Test
 	public void testDeadCards() {
@@ -98,6 +108,7 @@ public class EquityCalculationTest {
 		
 		EquityCalculationBuilder bldr = calculationBuilder().useDeadCards(card("Tc"));
 		bldr.useSampleSize(SAMPLE_SIZE);
+		bldr.useEvaluator(new DefaultEvaluator()); // for extra coverage
 		Map<Hand, Equity> equities = bldr.calculate(a, b);
 		
 		Equity equityA = equities.get(a);

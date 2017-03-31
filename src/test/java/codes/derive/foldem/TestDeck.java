@@ -89,6 +89,37 @@ public class TestDeck {
 	}
 	
 	@Test
+	public void testToArray() {
+		Deck deck = deck();
+		Card[] cards = deck.toArray();
+		for (int i = 0; i < cards.length; i++) {
+			assertEquals(deck.pop(), cards[i]);
+		}
+	}
+	
+	@Test(expected=IllegalStateException.class)
+	public void testPopAll() {
+		Deck deck = deck();
+		while (deck.remaining() != 0) {
+			deck.pop();
+		}
+		deck.pop();
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testPopAlreadyDealt() {
+		Deck deck = deck();
+		deck.pop(deck.pop());
+	}
+	
+	@Test(expected=IllegalStateException.class)
+	public void testNoReshuffle() {
+		Deck deck = deck();
+		deck.pop();
+		deck.shuffle();
+	}
+	
+	@Test
 	public void testDealt() {
 		Deck deck = deck();
 		assertTrue(deck.dealt(deck.pop()));
@@ -99,10 +130,14 @@ public class TestDeck {
 	public void testStandardOverrides() {
 		assertEquals(deck().toString(), "codes.derive.foldem.Deck [dealt=0]");
 		assertEquals(new Deck(), new Deck());
+		
 		assertNotEquals(new Deck(), null);
 		assertNotEquals(new Deck(), new Integer(1));
+		assertNotEquals(new Deck().hashCode(), new Deck().shuffle().hashCode());
+		
 		
 		Deck deck = new Deck();
+		assertEquals(deck, deck);
 		deck.pop();
 		assertNotEquals(new Deck(), deck);
 		

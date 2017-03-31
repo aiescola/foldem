@@ -47,6 +47,19 @@ public class TestBoard {
 		// turn <- river
 		board = Boards.convert(board, Street.TURN);
 		assertEquals(Street.TURN, board.getStreet());
+		
+		// river <- turn with provided cards
+		board = Boards.convert(board, Street.TURN, card("As"));
+		assertEquals(Street.TURN, board.getStreet());
+		
+		// turn <- turn with deck
+		board = Boards.convert(board, Street.FLOP, deck());
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testIllegalConvert() {
+		Board board = Boards.board(card("Ac"), card("Ad"), card("Ah"), card("As"));
+		Boards.convert(board, Street.RIVER);
 	}
 	
 	@Test
@@ -70,12 +83,29 @@ public class TestBoard {
 	public void testWrongAmountOfCards() {
 		Boards.board(card("AsAh"));
 	}
-	
+
+	@Test
+	public void testSubs() {
+
+		// lazy checkless initializations better than no coverage
+		Boards.flop(card("As"), card("Ah"), card("Ad"));
+		Boards.turn(card("As"), card("Ah"), card("Ad"), card("Ac"));
+		Boards.river(card("As"), card("Ah"), card("Ad"), card("Ac"), card("Kd"));
+		Deck deck = deck();
+		Boards.flop(deck);
+		Boards.turn(deck);
+		Boards.river(deck);
+
+	}
+
 	@Test
 	public void testStandardOverrides() {
 		assertFalse(Boards.board().equals(null));
 		assertFalse(Boards.board().equals(new Integer(1)));
 		assertFalse(Boards.board().equals(Boards.board("AsAhAc")));
+		Board board = Boards.board();
+		assertEquals(board, board);
+		assertNotEquals(Boards.board().hashCode(), Boards.board("AsTd3h").hashCode());
 	}
 
 }

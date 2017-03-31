@@ -66,10 +66,7 @@ public abstract class AbstractBoard implements Board {
 		if (getClass() != obj.getClass())
 			return false;
 		Board other = (Board) obj;
-		if (cards == null) {
-			if (other.cards() != null)
-				return false;
-		} else if (!cards.containsAll(other.cards()))
+		if (!cards.containsAll(other.cards()))
 			return false;
 		return true;
 	}
