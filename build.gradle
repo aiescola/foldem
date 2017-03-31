@@ -24,10 +24,10 @@ buildscript {
 
 apply plugin: 'jacoco'
 jacocoTestReport {
-    reports {
-        xml.enabled true
-        html.enabled false
-    }
+	reports {
+		xml.enabled true
+		html.enabled false
+	}
 }
 
 
@@ -42,15 +42,15 @@ bintray {
 		licenses = ['GPL-3.0']
 		vcsUrl = 'https://github.com/derive/foldem.git'
 		version {
-            gpg {
-                sign = true
-                passphrase = project.hasProperty('signing.password') ? project.property('signing.password') : ''
-            }
-            mavenCentralSync {
-                sync = true
-                user = project.hasProperty('mvnSyncUser') ? project.property('mvnSyncUser') : ''
-                password = project.hasProperty('mvnSyncPassword') ? project.property('mvnSyncPassword') : ''
-            }         
+			gpg {
+				sign = true
+				passphrase = project.hasProperty('signing.password') ? project.property('signing.password') : ''
+			}
+			mavenCentralSync {
+				sync = true
+				user = project.hasProperty('mvnSyncUser') ? project.property('mvnSyncUser') : ''
+				password = project.hasProperty('mvnSyncPassword') ? project.property('mvnSyncPassword') : ''
+			}		 
 			name = '1.0.2'
 			desc = 'A Texas Hold \'em Poker Analysis Framework for Java.'
 		}
@@ -75,9 +75,9 @@ def pomConfig = {
 	}
 	scm {
    		url 'https://github.com/ableiten/foldem'
-    	connection 'https://github.com/ableiten/foldem'
-    	developerConnection 'https://github.com/ableiten/foldem'
-    }
+		connection 'https://github.com/ableiten/foldem'
+		developerConnection 'https://github.com/ableiten/foldem'
+	}
 }
 
 
@@ -105,8 +105,8 @@ publishing {
 				root.appendNode('url', 'https://github.com/ableiten/foldem')
 				root.children().last() + pomConfig
 			}
-            artifact sourceJar 
-            artifact javadocJar
+			artifact sourceJar 
+			artifact javadocJar
 		}
 	}
 }
