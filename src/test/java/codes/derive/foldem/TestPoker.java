@@ -23,4 +23,9 @@ public class TestPoker {
 		assertEquals(1326, Poker.hands().size());
 	}
 	
+	@Test(expected=IllegalArgumentException.class)
+	public void testBadShorthand() {
+		Poker.handGroup("TTs");
+	}
+	
 }
