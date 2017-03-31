@@ -181,6 +181,32 @@ public class Deck {
 		return cards;
 	}
 
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(cards);
+		result = prime * result + currentIndex;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Deck other = (Deck) obj;
+		if (!Arrays.equals(cards, other.cards))
+			return false;
+		if (currentIndex != other.currentIndex)
+			return false;
+		return true;
+	}
+	
 	@Override
 	public String toString() {
 		return Deck.class.getName() + " [dealt=" + currentIndex + "]";
