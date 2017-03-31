@@ -1,5 +1,5 @@
 # Fold'em
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/codes.derive/foldem/badge.svg)](https://maven-badges.herokuapp.com/maven-central/codes.derive/foldem) [![Build Status](https://travis-ci.com/ableiten/foldem.svg?token=BhqqkCqh5epy6HEo9gsq&branch=master)](https://travis-ci.com/ableiten/foldem) [![codecov](https://codecov.io/gh/ableiten/foldem/branch/master/graph/badge.svg)](https://codecov.io/gh/ableiten/foldem) [![Javadocs](http://javadoc.io/badge/codes.derive/foldem.svg?color=red&label=documentation)](http://javadoc.io/doc/codes.derive/foldem) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/codes.derive/foldem/badge.svg)](https://maven-badges.herokuapp.com/maven-central/codes.derive/foldem) [![Build Status](https://travis-ci.com/ableiten/foldem.svg?token=BhqqkCqh5epy6HEo9gsq&branch=master)](https://travis-ci.com/ableiten/foldem) [![Javadocs](http://javadoc.io/badge/codes.derive/foldem.svg?color=red&label=documentation)](http://javadoc.io/doc/codes.derive/foldem) [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 
 A Java framework for Texas Hold 'em designed with an emphasis on simplicity and ease of use.
 
