@@ -49,6 +49,7 @@ public class Range {
 	 */
 	public Range define(Hand hand) {
 		if (contains(hand)) {
+			System.out.println(hand);
 			throw new IllegalArgumentException("Hand already exists within range");
 		}
 		constant.add(hand);
@@ -275,7 +276,7 @@ public class Range {
 	@Override
 	public String toString() {
 		StringBuilder bldr = new StringBuilder().append(Range.class.getName());
-		bldr.append("[ ");
+		bldr.append("[");
 		for (Hand hand : constant) {
 			bldr.append(hand);
 			bldr.append(",");
