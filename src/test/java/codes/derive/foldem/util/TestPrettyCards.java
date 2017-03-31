@@ -25,17 +25,17 @@ public class TestPrettyCards {
 
 	@Test
 	public void testPrettyCards() {
-		assertEquals(format(card("Qh")), "Q❤");
+		assertEquals("Q❤", format(card("Qh")));
 	}
 	
 	@Test
 	public void testPrettyHands() {
-		assertEquals(format(hand("QhQc")), "Q❤,Q♣");
+		assertEquals("Q❤,Q♣", format(hand("QhQc")));
 	}
 	
 	@Test
 	public void testPrettyBoards() {
-		// TODO
+		assertEquals("A♣, 7♦, 4❤", format(board("Ac7d4h")));
 	}
 	
 }

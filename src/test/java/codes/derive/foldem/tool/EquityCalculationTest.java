@@ -22,7 +22,7 @@ import static org.junit.Assert.*;
 import java.util.HashMap;
 import java.util.Map;
 
-//import org.junit.Test;
+import org.junit.Test;
 
 import codes.derive.foldem.Hand;
 import codes.derive.foldem.Range;
@@ -30,16 +30,20 @@ import codes.derive.foldem.board.Boards;
 import codes.derive.foldem.tool.EquityCalculationBuilder.Equity;
 
 public class EquityCalculationTest {
-	
-	private static final double ERROR_MARGIN = 0.015;
-	
+
 	/*
-	 * This test is currently disabled because it causes Travis to fail because
-	 * of CPU overuse. If you need to make sure your results are accurate please
-	 * run this manually.
+	 * The margin of error has been set to 1.0 since for Travis the sample size
+	 * is so low the results are useless. If you would like to test the accuracy
+	 * of results, raise the sample size and lower the error margin.
 	 */
 	
-	//@Test
+	/* The error margin in results */
+	private static final double ERROR_MARGIN = 1.0;
+	
+	/* The sample size to use */
+	private static final int SAMPLE_SIZE = 100;
+	
+	@Test
 	public void testHandBasedEquityCalculation() {
 		
 		Map<Hand, Double> rates = new HashMap<>();
@@ -49,8 +53,9 @@ public class EquityCalculationTest {
 		rates.put(hand("JcJs"), 0.12);
 		rates.put(hand("TcTs"), 0.10);
 		rates.put(hand("9c9s"), 0.09);
-		
-		Map<Hand, Equity> equities = equity(rates.keySet().toArray(new Hand[0]));
+
+		Map<Hand, Equity> equities = calculationBuilder().useSampleSize(
+				SAMPLE_SIZE).calculate(rates.keySet().toArray(new Hand[0]));
 		for (Hand h : equities.keySet()) {
 			Equity e = equities.get(h);
 			assertEquals(1.0, e.win() + e.lose() + e.split(), ERROR_MARGIN);
@@ -59,12 +64,13 @@ public class EquityCalculationTest {
 		
 	}
 	
-	//@Test
+	@Test
 	public void testRangeBasedEquityCalculationUnweighted() {
 		Range a = range(hand("AcAh"), hand("QsQh"));
 		Range b = range(hand("KsKh"), hand("JsJh"));
 		
-		Map<Range, Equity> equities = equity(a, b);
+		Map<Range, Equity> equities = calculationBuilder().useSampleSize(
+				SAMPLE_SIZE).calculate(a, b);
 		
 		Equity equityA = equities.get(a);
 		assertEquals(1.0, equityA.win() + equityA.lose() + equityA.split(), ERROR_MARGIN);
@@ -78,19 +84,20 @@ public class EquityCalculationTest {
 		
 	}
 	
-	//@Test(expected=IllegalArgumentException.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void testCauseRangeDuplicateException() {
 		equity(range(hand("QsQd")), range(hand("QsAc"), hand("AcQs")), range(hand("2s2d")));
 	}
 	
 	
-	//@Test
+	@Test
 	public void testDeadCards() {
 		
 		Hand a = hand("9s9h");
 		Hand b = hand("TdTs");
 		
 		EquityCalculationBuilder bldr = calculationBuilder().useDeadCards(card("Tc"));
+		bldr.useSampleSize(SAMPLE_SIZE);
 		Map<Hand, Equity> equities = bldr.calculate(a, b);
 		
 		Equity equityA = equities.get(a);
@@ -105,7 +112,7 @@ public class EquityCalculationTest {
 		
 	}
 	
-	//@Test
+	@Test
 	public void testBoards() {
 		
 		Hand a = hand("9s9h");

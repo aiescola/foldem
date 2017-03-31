@@ -66,4 +66,16 @@ public class TestBoard {
 		}
 	}
 	
+	@Test(expected=IllegalArgumentException.class)
+	public void testWrongAmountOfCards() {
+		Boards.board(card("AsAh"));
+	}
+	
+	@Test
+	public void testStandardOverrides() {
+		assertFalse(Boards.board().equals(null));
+		assertFalse(Boards.board().equals(new Integer(1)));
+		assertFalse(Boards.board().equals(Boards.board("AsAhAc")));
+	}
+
 }

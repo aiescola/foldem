@@ -33,4 +33,13 @@ public class TestCard {
 		assertEquals(card(deck()), deck().pop());
 	}
 	
+	@Test
+	public void testStandardOverrides() {
+		assertEquals("Ac", card("Ac").toString());
+		assertFalse(card("Ac").equals(null));
+		assertFalse(card("Ac").equals(1));
+		assertFalse(card("Ac").equals(card("Ad")));
+
+	}
+	
 }

@@ -95,4 +95,21 @@ public class TestDeck {
 		assertFalse(deck.dealt(deck.peek()));
 	}
 	
+	@Test
+	public void testStandardOverrides() {
+		assertEquals(deck().toString(), "codes.derive.foldem.Deck [dealt=0]");
+		assertEquals(new Deck(), new Deck());
+		assertNotEquals(new Deck(), null);
+		assertNotEquals(new Deck(), new Integer(1));
+		
+		Deck deck = new Deck();
+		deck.pop();
+		assertNotEquals(new Deck(), deck);
+		
+		deck = new Deck();
+		deck.shuffle();
+		assertNotEquals(new Deck(), deck);
+		
+	}
+	
 }
