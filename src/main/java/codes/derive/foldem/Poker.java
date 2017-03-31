@@ -171,10 +171,11 @@ public class Poker {
 		List<Hand> hands = new ArrayList<>();
 		for (Card a : cards()) {
 			for (Card b : cards()) {
-				if (a.equals(b)) {
+				Hand h = hand(a, b);
+				if (a.equals(b) || hands.contains(h)) {
 					continue;
 				}
-				hands.add(hand(a, b));
+				hands.add(h);
 			}
 		}
 		return hands;
