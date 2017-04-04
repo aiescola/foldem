@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.IntStream;
 
 import codes.derive.foldem.Card;
 import codes.derive.foldem.Deck;
@@ -200,7 +201,7 @@ public class EquityCalculationBuilder {
 		/*
 		 * Run our simulations.
 		 */
-		for (int i = 0; i < sampleSize; i++) {
+		IntStream.range(0, sampleSize).forEach((i) -> { 
 
 			/*
 			 * First we should sample our hands from our ranges, making sure
@@ -259,7 +260,7 @@ public class EquityCalculationBuilder {
 			 * Run the simulation.
 			 */
 			simulate(hands, random);
-		}
+		});
 		
 		/*
 		 * Now just call complete() on all of our generated equities to convert
