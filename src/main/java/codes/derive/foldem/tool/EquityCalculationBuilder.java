@@ -90,9 +90,9 @@ public class EquityCalculationBuilder {
 		/*
 		 * Run our simulations.
 		 */
-		for (int i = 0; i < sampleSize; i++) {
+		IntStream.range(0, sampleSize).parallel().forEach((i) -> {
 			simulate(equities, random);
-		}
+		});
 
 		/*
 		 * Now just call complete() on all of our generated equities to convert
@@ -201,8 +201,8 @@ public class EquityCalculationBuilder {
 		/*
 		 * Run our simulations.
 		 */
-		IntStream.range(0, sampleSize).forEach((i) -> { 
-
+		IntStream.range(0, sampleSize).parallel().forEach((i) -> {
+			
 			/*
 			 * First we should sample our hands from our ranges, making sure
 			 * there are no collisions. We'll map them to their respective
