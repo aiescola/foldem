@@ -52,7 +52,7 @@ bintray {
 				user = project.hasProperty('mvnSyncUser') ? project.property('mvnSyncUser') : ''
 				password = project.hasProperty('mvnSyncPassword') ? project.property('mvnSyncPassword') : ''
 			}		 
-			name = '1.0.2'
+			name = '1.0.3'
 			desc = 'A Texas Hold \'em Poker Analysis Framework for Java.'
 		}
 	}
@@ -98,7 +98,7 @@ publishing {
 			from components.java
 			groupId 'codes.derive'
 			artifactId 'foldem'
-			version '1.0.2'
+			version '1.0.3'
 			pom.withXml {
 				def root = asNode()
 				root.appendNode('description', 'A Texas Hold \'em Poker Analysis Framework for Java.')
