@@ -35,7 +35,7 @@ public class EvaluationBenchmarker implements Callable<Double> {
 	}
 
 	@Override
-	public Double call() throws Exception {
+	public Double call() {
 
 		// Create a hand and board to run our evaluations on.
 		Hand hand = new Hand("AcAs");
