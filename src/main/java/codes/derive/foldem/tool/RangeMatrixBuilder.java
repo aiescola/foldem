@@ -20,7 +20,10 @@ import static codes.derive.foldem.Poker.*;
 
 import java.awt.Color;
 import java.awt.FontMetrics;
+import java.awt.GradientPaint;
 import java.awt.Graphics2D;
+import java.awt.Paint;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.Collection;
@@ -113,16 +116,28 @@ public class RangeMatrixBuilder {
 				g.setColor(color);
 
 				/*
-				 * Calculate our box Y coordinate and height.
+				 * Calculate our fill location and height.
 				 */
-				int boxY = drawY + boxSize - (int) (boxSize * weight);
-				int boxHeight = (int) (boxSize * weight);
+				int fillX = drawX;
+				int fillY = drawY + boxSize - (int) (boxSize * weight);
+				int fillHeight = (int) (boxSize * weight);
 				
 				/*
-				 * Draw the box foreground.
+				 * Store our original paint and use a gradient instead.
 				 */
-				g.fillRect(drawX, boxY, boxSize, boxHeight);
-
+				Paint original = g.getPaint();
+				g.setPaint(new GradientPaint(new Point(fillX, fillY), color, new Point(fillX + boxSize, fillY + fillHeight), color.darker()));
+				
+				/*
+				 * Fill the area.
+				 */
+				g.fillRect(fillX, fillY, boxSize, fillHeight);
+				
+				/*
+				 * Reset our paint.
+				 */
+				g.setPaint(original);
+				
 				/*
 				 * Calculate the position of the label.
 				 */
