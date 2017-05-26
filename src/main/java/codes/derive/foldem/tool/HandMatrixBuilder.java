@@ -35,7 +35,7 @@ import codes.derive.foldem.Range;
  * A type that can generate images containing each hand in a range and its
  * respective weight in a matrix.
  */
-public class RangeMatrixBuilder {
+public class HandMatrixBuilder {
 	
 	/* Size of the hand matrix */
 	private static final int MATRIX_SIZE = 13;
