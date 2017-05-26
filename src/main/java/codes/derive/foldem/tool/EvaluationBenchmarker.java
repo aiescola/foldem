@@ -12,7 +12,7 @@ import codes.derive.foldem.eval.Evaluator;
  * A type that can be used to measure the performance of an evaluation in
  * evaluations/second.
  */
-public class EvaluationBenchmarker implements Callable<Double> {
+public class EvaluationBenchmarker implements Callable<Integer> {
 
 	/* The evaluator to use. */
 	private final Evaluator evaluator;
@@ -35,7 +35,7 @@ public class EvaluationBenchmarker implements Callable<Double> {
 	}
 
 	@Override
-	public Double call() {
+	public Integer call() {
 
 		// Create a hand and board to run our evaluations on.
 		Hand hand = new Hand("AcAs");
@@ -53,7 +53,7 @@ public class EvaluationBenchmarker implements Callable<Double> {
 		long elapsed = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - start);
 
 		// Return the number of evaluations per second.
-		return (double) runs / elapsed;
+		return (int) (runs / elapsed);
 	}
 
 }

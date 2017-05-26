@@ -11,8 +11,7 @@ public class BenchmarkExample {
 	public static void main(String... args) {
 
 		// Create a new benchmarker with the default evaluator, performing
-		// 100,000 runs.
-		EvaluationBenchmarker benchmarker = new EvaluationBenchmarker(new DefaultEvaluator(), 100000);
+		EvaluationBenchmarker benchmarker = new EvaluationBenchmarker(new DefaultEvaluator(), 10000000);
 
 		// Create a benchmark, printing it to stdout.
 		try {
