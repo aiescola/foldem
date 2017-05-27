@@ -8,7 +8,7 @@ public class RangeMatrixTest {
 
 	@Test
 	public void testNoException() {
-		new RangeMatrixBuilder().build(range());
+		new HandMatrixBuilder().build(range());
 	}
 	
 }

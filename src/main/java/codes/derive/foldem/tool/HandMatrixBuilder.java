@@ -20,7 +20,10 @@ import static codes.derive.foldem.Poker.*;
 
 import java.awt.Color;
 import java.awt.FontMetrics;
+import java.awt.GradientPaint;
 import java.awt.Graphics2D;
+import java.awt.Paint;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.Collection;
@@ -32,7 +35,7 @@ import codes.derive.foldem.Range;
  * A type that can generate images containing each hand in a range and its
  * respective weight in a matrix.
  */
-public class RangeMatrixBuilder {
+public class HandMatrixBuilder {
 	
 	/* Size of the hand matrix */
 	private static final int MATRIX_SIZE = 13;
@@ -113,16 +116,28 @@ public class RangeMatrixBuilder {
 				g.setColor(color);
 
 				/*
-				 * Calculate our box Y coordinate and height.
+				 * Calculate our fill location and height.
 				 */
-				int boxY = drawY + boxSize - (int) (boxSize * weight);
-				int boxHeight = (int) (boxSize * weight);
+				int fillX = drawX;
+				int fillY = drawY + boxSize - (int) (boxSize * weight);
+				int fillHeight = (int) (boxSize * weight);
 				
 				/*
-				 * Draw the box foreground.
+				 * Store our original paint and use a gradient instead.
 				 */
-				g.fillRect(drawX, boxY, boxSize, boxHeight);
-
+				Paint original = g.getPaint();
+				g.setPaint(new GradientPaint(new Point(fillX, fillY), color, new Point(fillX + boxSize, fillY + fillHeight), color.darker()));
+				
+				/*
+				 * Fill the area.
+				 */
+				g.fillRect(fillX, fillY, boxSize, fillHeight);
+				
+				/*
+				 * Reset our paint.
+				 */
+				g.setPaint(original);
+				
 				/*
 				 * Calculate the position of the label.
 				 */
