@@ -48,7 +48,7 @@ cd foldem
 A Javadoc for Fold'em is available [here](http://javadoc.io/doc/codes.derive/foldem/1.1.3). Additionally some examples have been provided in this repository [here](/src/main/java/codes/derive/foldem/example). An effort has been made to keep this library as simple as possible to use. Some more basic usage examples have been provided in the section below.
 
 ### Basic Usage Guide
-Most of this project's functionality is provided in the `codes.derive.foldem` package. In this package there is a helper class called `Poker` containing static functions for creating and working with the data types this project exposes. (TODO move links to point to Javadoc once its up)
+Most of this project's functionality is provided in the `codes.derive.foldem` package. In this package there is a helper class called `Poker` containing static functions for creating and working with the data types this project exposes.
 
 It is recommended that you import this statically to make code less bulky:
 ```java
