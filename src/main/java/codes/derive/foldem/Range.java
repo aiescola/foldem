@@ -49,7 +49,6 @@ public class Range {
 	 */
 	public Range define(Hand hand) {
 		if (contains(hand)) {
-			System.out.println(hand);
 			throw new IllegalArgumentException("Hand already exists within range");
 		}
 		constant.add(hand);
