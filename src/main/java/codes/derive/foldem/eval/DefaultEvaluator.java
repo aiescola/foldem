@@ -32,7 +32,7 @@ import codes.derive.foldem.Hand;
 import codes.derive.foldem.board.Board;
 
 /**
- * A hand evaluator using Cactus Kev's 5 card system adopted for 7 card hands
+ * A hand evaluator using Cactus Kev's 5 card system adapted for 7 card hands
  * using the 21-combinations method.
  */
 public class DefaultEvaluator implements Evaluator {
