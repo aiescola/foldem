@@ -173,6 +173,6 @@ for (HandValue value : frequencies.keySet()) {
 If you're looking for specific functionality or looking to expand on existing functionality it is suggested that you check out [the Javadoc](http://javadoc.io/doc/codes.derive/foldem/1.1.3). A great effort has been made to keep the Javadoc as informative and coherent as possible.
 
 ### More About
-*Fold'em is a GPL licensed module in a larger proprietary project with functionality similar to projects like [CREV](http://gtorangebuilder.com/). Among other things, it includes high-level types for representing and working with game trees as well as improvements on this library such as faster implementations of `codes.derive.foldem.eval.Evaluator`.*
+*Fold'em is a GPL licensed module in a larger proprietary project with functionality similar to projects like [CREV](http://www.cardrunnersev.com/). Among other things, it includes high-level types for representing and working with game trees as well as improvements on this library such as faster implementations of `codes.derive.foldem.eval.Evaluator`.*
 
 *If you are interested in learning more about the expanded version of this library please direct your enquiries to mail@derive.codes.*
