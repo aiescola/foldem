@@ -31,7 +31,6 @@ jacocoTestReport {
 	}
 }
 
-
 apply plugin: 'com.jfrog.bintray'
 
 bintray {
@@ -41,7 +40,7 @@ bintray {
 		repo = 'pub'	
 		name = 'foldem'
 		licenses = ['GPL-3.0']
-		vcsUrl = 'https://github.com/derive/foldem.git'
+		vcsUrl = 'https://github.com/ableiten/foldem.git'
 		version {
 			gpg {
 				sign = true
@@ -81,7 +80,6 @@ def pomConfig = {
 	}
 }
 
-
 task sourceJar(type: Jar) {
 	from sourceSets.main.allSource
 	classifier = 'sources'
@@ -111,3 +109,4 @@ publishing {
 		}
 	}
 }
+
