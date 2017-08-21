@@ -23,12 +23,12 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Represents a hand in Texas Hold 'em.
+ * Represents a poker hand.
  */
 public class Hand {
 
-	/* The cards contained within this hand. */
-	private final List<Card> cards = new ArrayList<>(2);
+	/* The hole cards contained within this hand. */
+	private final List<Card> cards = new ArrayList<>();
 
 	/**
 	 * Creates a new hand with the specified cards.
@@ -37,8 +37,15 @@ public class Hand {
 	 *            The cards to use.
 	 */
 	public Hand(Card... cards) {
-		if (cards.length != 2) {
-			throw new IllegalArgumentException("Illegal number of cards");
+		boolean valid = false;
+		for (Game game : Game.values()) {
+			if (game.cards() == cards.length) {
+				valid = true;
+				break;
+			}
+		}
+		if (!valid) {
+			throw new IllegalArgumentException("Invalid number of cards");
 		}
 		this.cards.addAll(Arrays.asList(cards));
 	}
@@ -58,9 +65,9 @@ public class Hand {
 	 * @see codes.derive.foldem.Card#Card(String)
 	 */
 	public Hand(String cards) {
-		this(new Card(cards.substring(0, 2)), new Card(cards.substring(2, 4)));
+		this(Poker.cards(cards).toArray(new Card[0])); // TODO own function for parse
 	}
-	
+
 	/**
 	 * Obtains an unmodifiable view of the cards within this hand.
 	 * 
@@ -77,12 +84,23 @@ public class Hand {
 	 *         <code>false</code>.
 	 */
 	public boolean suited() {
-		return cards.get(0).getSuit().equals(cards.get(1).getSuit());
+		boolean suited = true;
+		for (Card c : cards) {
+			if (!c.getSuit().equals(cards.get(0))) {
+				suited = false;
+				break;
+			}
+		}
+		return suited;
 	}
 	
 	@Override
 	public String toString() {
-		return cards.get(0).toString().concat(cards.get(1).toString());
+		StringBuilder bldr = new StringBuilder();
+		for (Card c : cards()) {
+			bldr.append(c);
+		}
+		return bldr.toString();
 	}
 	
 	@Override
