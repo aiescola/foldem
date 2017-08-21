@@ -18,10 +18,6 @@ package codes.derive.foldem.eval;
 
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +28,7 @@ import codes.derive.foldem.Hand;
 import codes.derive.foldem.board.Board;
 
 /**
- * A hand evaluator using Cactus Kev's 5 card system adopted for 7 card hands
+ * A hand evaluator using Cactus Kev's 5 card system adapted for 7 card hands
  * using the 21-combinations method.
  */
 public class DefaultEvaluator implements Evaluator {
@@ -68,23 +64,7 @@ public class DefaultEvaluator implements Evaluator {
 	private static final Map<Integer, Short> rankings = new HashMap<>();
 
 	static {
-		
-		InputStream in;
-		
-		// Try to find a stream for our rank data.
-		Path path = Paths.get("rank_data");
-		if (Files.exists(path)) {
-			try {
-				in = Files.newInputStream(path);
-			} catch (IOException e) {
-				throw new RuntimeException("Could not load rank_data from local file", e);
-			}
-		} else {
-			in = DefaultEvaluator.class.getResourceAsStream("rank_data");
-		}
-		
-		// Read the rank data from the stream and store it
-		try (DataInputStream din = new DataInputStream(in)) {
+		try (DataInputStream din = new DataInputStream(DefaultEvaluator.class.getResourceAsStream("rank_data"))) {
 			for (short i = 0; i < DISTINCT_VALUES; i++) {
 				rankings.put(din.readInt(), i);
 			}

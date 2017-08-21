@@ -15,6 +15,6 @@
  * along with Fold'em.  If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * Contains basic usage examples for Fold'em.
+ * Defines basic usage examples for Fold'em.
  */
 package codes.derive.foldem.example;

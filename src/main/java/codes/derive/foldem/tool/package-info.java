@@ -15,6 +15,6 @@
  * along with Fold'em.  If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * Contains tools that can be used to easily perform advanced tasks using this library.
+ * Defines tools that can be used to easily perform advanced tasks using this library.
  */
 package codes.derive.foldem.tool;
