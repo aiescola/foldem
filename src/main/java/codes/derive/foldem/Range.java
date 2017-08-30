@@ -210,7 +210,7 @@ public class Range {
 		 * Make sure we're going to have enough hands to sample at correct
 		 * frequencies.
 		 */
-		double weightTotal = 1.0 * constant.size();
+		double weightTotal = constant.size();
 		for (Double weight : weighted.keySet()) {
 			weightTotal += weight;
 		}
