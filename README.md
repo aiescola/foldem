@@ -3,8 +3,6 @@
 
 A Java framework for Texas Hold 'em designed with an emphasis on simplicity and ease of use.
 
-![generated](https://cloud.githubusercontent.com/assets/22860251/26515949/098694ae-42d4-11e7-9d82-5005d8d0f544.png)
-
 ## Features
 - Hand evaluator
 - Equity calculation for both hands and ranges for any number of players
