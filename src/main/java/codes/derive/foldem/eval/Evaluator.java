@@ -30,7 +30,7 @@ public interface Evaluator {
 	 * 
 	 * <p>
 	 * The rank numbers can be different per-implementation but the general
-	 * contract is that 0 should be the worst possible hand, 1 the second worse,
+	 * contract is that 0 should be the best possible hand, 1 the second best,
 	 * and so on.
 	 * </p>
 	 * 
@@ -39,7 +39,7 @@ public interface Evaluator {
 	 * @param b
 	 *            The board to rank it on.
 	 * @return The rank of the specified {@link Hand} on the specified
-	 *         {@link Board}. Higher numbers = better hands.
+	 *         {@link Board}. Higher numbers = Worse hands.
 	 */
 	public int rank(Hand h, Board b);
 
