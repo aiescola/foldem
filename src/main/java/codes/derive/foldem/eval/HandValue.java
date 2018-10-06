@@ -79,8 +79,8 @@ public enum HandValue {
 	 * 
 	 * @param v
 	 *            The value to compare to.
-	 * @return 0 if this.rank == v.rank, 1 if this.rank > v.rank and conversely
-	 *         -1 if this.rank < v.rank .
+	 * @return 0 if this.rank == v.rank, 1 if this.rank &gt; v.rank and conversely
+	 *         -1 if this.rank &lt; v.rank .
 	 */
 	public int compare(HandValue v) {
 		if (this.rank == v.rank) {
