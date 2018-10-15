@@ -95,12 +95,12 @@ public class TwoPlusTwoEvaluator implements Evaluator {
 	}
 	
 	@Override
-	public int rank(Hand h, Board b) { // TODO naming
+	public int rank(Hand hand, Board board) { 
 		int p = 53;
-		for (Card c : b.cards()) {
+		for (Card c : board.cards()) {
 			p = rankTable[p + CARD_VALUES[c.getId()]];
 		}
-		for (Card c : h.cards()) {
+		for (Card c : hand.cards()) {
 			p = rankTable[p + CARD_VALUES[c.getId()]];
 		}
 		return p;

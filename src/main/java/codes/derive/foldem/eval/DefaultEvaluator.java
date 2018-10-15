@@ -76,7 +76,7 @@ public class DefaultEvaluator implements Evaluator {
 	}
 	
 	@Override
-	public int rank(Hand h, Board b) {
+	public int rank(Hand hand, Board board) {
 		
 		/*
 		 * Create a list to hold 21 5 card hands created from our 7 card hands.
@@ -88,8 +88,8 @@ public class DefaultEvaluator implements Evaluator {
 		 * combination.
 		 */
 		List<Card> original = new ArrayList<>();
-		original.addAll(h.cards());
-		original.addAll(b.cards());
+		original.addAll(hand.cards());
+		original.addAll(board.cards());
 		
 		/*
 		 * Initialize two size indicating constants for our k-combination.

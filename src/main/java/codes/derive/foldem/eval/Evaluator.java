@@ -34,14 +34,14 @@ public interface Evaluator {
 	 * and so on.
 	 * </p>
 	 * 
-	 * @param h
+	 * @param hand
 	 *            The hand to rank.
-	 * @param b
+	 * @param board
 	 *            The board to rank it on.
 	 * @return The rank of the specified {@link Hand} on the specified
 	 *         {@link Board}. Higher numbers = Worse hands.
 	 */
-	public int rank(Hand h, Board b);
+	public int rank(Hand hand, Board board);
 
 	/**
 	 * Obtains the value of the specified {@link Hand} on the specified
