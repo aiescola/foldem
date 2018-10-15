@@ -20,6 +20,8 @@ import static codes.derive.foldem.Poker.*;
 
 import codes.derive.foldem.Card;
 import codes.derive.foldem.Deck;
+import codes.derive.foldem.Poker;
+import codes.derive.foldem.util.RandomContext;
 
 /**
  * Helper class containing functions for working with {@link Board}.
@@ -214,7 +216,6 @@ public class Boards {
 		for (int i = original.length, ib = 0; i < newCards.length; i++, ib++) {
 			newCards[i] = cards[ib];
 		}
-
 		return new GenericBoard(street, newCards);
 	}
 
@@ -245,5 +246,30 @@ public class Boards {
 		}
 		return convert(board, street, cards);
 	}
-
+	
+	/**
+	 * Creates a new board with a random number of cards from the specified deck.
+	 * @param deck
+	 * 		The deck to take cards from.
+	 * @return
+	 * 		A new {@link Board} with between 3 and 5 cards.
+	 */
+	public static Board random(Deck deck) {
+		int num = 3 + RandomContext.get().nextInt(3);
+		Card[] cards = new Card[num];
+		for (int i = 0; i < cards.length; i++) {
+			cards[i] = deck.pop();
+		}
+		return board(cards);
+	}
+	
+	/**
+	 * Creates a new board with a random number of cards from a newly shuffled deck.
+	 * @return
+	 * 		A new {@link Board} with between 3 and 5 cards.
+	 */
+	public static Board random() {
+		return random(Poker.shuffledDeck());
+	}
+	
 }
