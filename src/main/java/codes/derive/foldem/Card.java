@@ -164,6 +164,15 @@ public class Card {
 		return suit;
 	}
 	
+	/**
+	 * Gets the unique ID associated with this card.
+	 * 
+	 * @return The unique ID associated with this card.
+	 */
+	public int getId() {
+		return (suit.getId() * 13) + value;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

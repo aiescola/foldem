@@ -24,22 +24,29 @@ public enum Suit {
 	/**
 	 * The spades suit.
 	 */
-	SPADES, 
+	SPADES(0), 
 	
 	/**
 	 * The clubs suit.
 	 */
-	CLUBS, 
+	CLUBS(1), 
 	
 	/**
 	 * The hearts suit.
 	 */
-	HEARTS, 
+	HEARTS(2), 
 	
 	/**
 	 * The diamonds suit.
 	 */
-	DIAMONDS;
+	DIAMONDS(3);
+	
+	/* The ID of this suit. */
+	private final int id;
+
+	private Suit(int id) {
+		this.id = id;
+	}
 	
 	/**
 	 * Obtains the shorthand character for this suit. Equivalent to
@@ -49,6 +56,15 @@ public enum Suit {
 	 */
 	public char getShorthand() {
 		return name().toLowerCase().charAt(0);
+	}
+
+	/**
+	 * Gets this suit's unique ID.
+	 * 
+	 * @return This suit's unique ID.
+	 */
+	public int getId() {
+		return id;
 	}
 	
 }
