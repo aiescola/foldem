@@ -2,6 +2,7 @@ package codes.derive.foldem.tool;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
 
 import codes.derive.foldem.Hand;
 import codes.derive.foldem.board.Board;
@@ -19,7 +20,10 @@ public class EvaluationBenchmarker implements Callable<Integer> {
 
 	/* The number of evaluations to perform */
 	private final int runs;
-
+	
+	/* Whether or not to run the evaluator on a single thread */
+	private boolean singleThread;
+	
 	/**
 	 * Constructs a new {@link EvaluationBenchmarker} for the specified
 	 * {@link Evaluator}.
@@ -28,10 +32,17 @@ public class EvaluationBenchmarker implements Callable<Integer> {
 	 *            The evaluator to use.
 	 * @param runs
 	 *            The number of evaluations to perform for a measurement.
+	 *            TODO
 	 */
-	public EvaluationBenchmarker(Evaluator evaluator, int runs) {
+	public EvaluationBenchmarker(Evaluator evaluator, int runs, boolean singleThread) {
 		this.evaluator = evaluator;
 		this.runs = runs;
+		this.singleThread = singleThread;
+	}
+	
+	// TODO
+	public EvaluationBenchmarker(Evaluator evaluator, int runs) {
+		this(evaluator, runs, false);
 	}
 
 	@Override
@@ -45,9 +56,13 @@ public class EvaluationBenchmarker implements Callable<Integer> {
 		long start = System.nanoTime();
 
 		// Begin running evaluations.
-		for (int i = 0; i < runs; i++) {
-			evaluator.rank(hand, board);
+		IntStream stream = IntStream.range(0, runs);
+		if (!singleThread) {
+			stream = stream.parallel();
 		}
+		stream.forEach(i -> {
+			evaluator.rank(hand, board);
+		});
 
 		// Measure how much time passed.
 		long elapsed = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - start);
