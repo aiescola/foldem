@@ -17,7 +17,6 @@
 
 package codes.derive.foldem.board;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -32,8 +31,7 @@ import codes.derive.foldem.Card;
 public abstract class AbstractBoard implements Board {
 
 	/* A list containing the cards on this board. */
-	private final List<Card> cards = new ArrayList<>();
-
+	private final List<Card> cards;
 	/**
 	 * Constructs a new board with the specified cards.
 	 * 
@@ -41,12 +39,12 @@ public abstract class AbstractBoard implements Board {
 	 *            The cards.
 	 */
 	public AbstractBoard(Card... cards) {
-		this.cards.addAll(Arrays.asList(cards));
+		this.cards = Collections.unmodifiableList(Arrays.asList(cards));
 	}
 
 	@Override
 	public Collection<Card> cards() {
-		return Collections.unmodifiableCollection(cards);
+		return cards;
 	}
 
 	@Override

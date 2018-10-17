@@ -16,7 +16,6 @@
  */
 package codes.derive.foldem;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -28,7 +27,7 @@ import java.util.List;
 public class Hand {
 
 	/* The cards contained within this hand. */
-	private final List<Card> cards = new ArrayList<>(2);
+	private final List<Card> cards;
 
 	/**
 	 * Creates a new hand with the specified cards.
@@ -40,7 +39,7 @@ public class Hand {
 		if (cards.length != 2) {
 			throw new IllegalArgumentException("Illegal number of cards");
 		}
-		this.cards.addAll(Arrays.asList(cards));
+		this.cards = Collections.unmodifiableList(Arrays.asList(cards));
 	}
 	
 	/**
@@ -62,12 +61,12 @@ public class Hand {
 	}
 	
 	/**
-	 * Obtains an unmodifiable view of the cards within this hand.
+	 * Obtains an unmodifiable view of the cards comprising this hand.
 	 * 
-	 * @return An unmodifiable view of the cards within this hand.
+	 * @return An unmodifiable view of the cards comprising this hand.
 	 */
 	public Collection<Card> cards() {
-		return Collections.unmodifiableCollection(cards);
+		return cards;
 	}
 	
 	/**
