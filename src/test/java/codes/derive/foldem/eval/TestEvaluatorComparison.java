@@ -3,7 +3,6 @@ package codes.derive.foldem.eval;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 
 import org.junit.Test;
 
@@ -17,7 +16,7 @@ public class TestEvaluatorComparison {
 
 	@Test
 	public void compareTwoPlusTwoWithDefault() throws IOException {
-		compareEvaluators(new DefaultEvaluator(), new TwoPlusTwoEvaluator(Paths.get("/tmp/rankings.dat")));
+		compareEvaluators(new DefaultEvaluator(), new TwoPlusTwoEvaluator());
 	}
 	
 	private void compareEvaluators(Evaluator e1, Evaluator e2) {
