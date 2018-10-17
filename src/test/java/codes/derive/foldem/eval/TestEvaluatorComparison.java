@@ -3,6 +3,8 @@ package codes.derive.foldem.eval;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.nio.file.Paths;
+
 import org.junit.Test;
 
 import codes.derive.foldem.Deck;
@@ -15,15 +17,15 @@ public class TestEvaluatorComparison {
 
 	@Test
 	public void compareTwoPlusTwoWithDefault() throws IOException {
-		compareEvaluators(new DefaultEvaluator(), new TwoPlusTwoEvaluator());
+		compareEvaluators(new DefaultEvaluator(), new TwoPlusTwoEvaluator(Paths.get("/tmp/rankings.dat")));
 	}
 	
 	private void compareEvaluators(Evaluator e1, Evaluator e2) {
-		for (int i  = 0; i < 100000 /* Arbitrary */; i++) {
+		for (int i  = 0; i < 10000 /* Arbitrary */; i++) {
 			Deck deck = Poker.shuffledDeck();
-			Board board = Boards.random(deck);
+			Board board = Boards.river(deck);
 			Hand a = Poker.hand(deck), b = Poker.hand(deck);
-			assertEquals(e1.rank(a, board) > e1.rank(b, board), e2.rank(a, board) < e2.rank(b, board));
+			assertEquals(e1.rank(a, board) < e1.rank(b, board), e2.rank(a, board) > e2.rank(b, board));
 			assertEquals(e1.value(a, board), e2.value(a, board));
 			assertEquals(e1.value(b, board), e2.value(b, board));
 		}
