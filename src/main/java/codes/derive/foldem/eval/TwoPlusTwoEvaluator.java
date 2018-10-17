@@ -87,10 +87,11 @@ public class TwoPlusTwoEvaluator implements Evaluator {
 		FileChannel channel = FileChannel.open(path);
 		
 		ByteBuffer buf = ByteBuffer.allocateDirect(NUM_RANKINGS * 4);
-		while (channel.read(buf) != -1);
+		while (channel.read(buf) > 0);
 		buf.order(ByteOrder.LITTLE_ENDIAN);
 		
 		IntStream.range(0, NUM_RANKINGS).parallel().forEach((i) -> ranks[i] = buf.getInt(i * 4));
+		
 		channel.close();
 	}
 	
