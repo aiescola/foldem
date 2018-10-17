@@ -29,9 +29,13 @@ public interface Evaluator {
 	 * Ranks the specified hand on the specified board.
 	 * 
 	 * <p>
-	 * The rank numbers can be different per-implementation but the general
-	 * contract is that 0 should be the best possible hand, 1 the second best,
-	 * and so on.
+	 * The rank numbers can be different per-implementation but the general contract
+	 * is that 0 should be the best possible hand, 1 the second best, and so on.
+	 * </p>
+	 * 
+	 * <p>
+	 * This method should always support 7 card hands but 6 and 5 card hands can be
+	 * left as implementation-specific/optional functionality.
 	 * </p>
 	 * 
 	 * @param hand
@@ -39,7 +43,7 @@ public interface Evaluator {
 	 * @param board
 	 *            The board to rank it on.
 	 * @return The rank of the specified {@link Hand} on the specified
-	 *         {@link Board}. Higher numbers = Worse hands.
+	 *         {@link Board}. Higher numbers = worse hands.
 	 */
 	public int rank(Hand hand, Board board);
 
