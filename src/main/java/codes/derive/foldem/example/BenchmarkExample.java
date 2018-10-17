@@ -1,7 +1,6 @@
 package codes.derive.foldem.example;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,13 +16,11 @@ public class BenchmarkExample {
 
 	private static final Logger logger = Logger.getLogger(BenchmarkExample.class.getName());
 	
-	private static int NUM_RUNS = 100000000;
-	
 	public static void main(String... args) {
 		logger.info("Starting benchmarks");
-		fullBenchmark(new DefaultEvaluator());
+		fullBenchmark(new DefaultEvaluator(), 10000000);
 		try {
-			fullBenchmark(new TwoPlusTwoEvaluator(Paths.get("/tmp/HandRanks.dat")));
+			fullBenchmark(new TwoPlusTwoEvaluator(), 500000000);
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, "Exception caught, benchmarking failed", e);
 			System.exit(1);
@@ -31,13 +28,13 @@ public class BenchmarkExample {
 		logger.info("All benchmarking finished");
 	}
 	
-	private static void fullBenchmark(Evaluator evaluator) {
+	private static void fullBenchmark(Evaluator evaluator, int runs) {
 		logger.info("Starting single threaded benchmark for evaluator " + evaluator);
-		EvaluationBenchmarker b = new EvaluationBenchmarker(evaluator, NUM_RUNS, true);
+		EvaluationBenchmarker b = new EvaluationBenchmarker(evaluator, runs, true);
 		logger.log(Level.INFO, "Benchmark finished, executed {0} eval/s", b.call());
 		
 		logger.info("Starting multi-threaded benchmark for evaluator " + evaluator);
-		b = new EvaluationBenchmarker(evaluator, NUM_RUNS);
+		b = new EvaluationBenchmarker(evaluator, runs);
 		logger.log(Level.INFO, "Benchmark finished, executed {0} eval/s", b.call());
 	}
 
