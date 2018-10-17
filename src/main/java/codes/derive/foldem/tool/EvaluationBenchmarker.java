@@ -31,16 +31,25 @@ public class EvaluationBenchmarker implements Callable<Integer> {
 	 * @param evaluator
 	 *            The evaluator to use.
 	 * @param runs
-	 *            The number of evaluations to perform for a measurement.
-	 *            TODO
+	 *            The number of evaluations to perform.
 	 */
 	public EvaluationBenchmarker(Evaluator evaluator, int runs, boolean singleThread) {
 		this.evaluator = evaluator;
 		this.runs = runs;
 		this.singleThread = singleThread;
 	}
-	
-	// TODO
+
+	/**
+	 * Constructs a new {@link EvaluationBenchmarker} for the specified
+	 * {@link Evaluator}.
+	 * 
+	 * @param evaluator
+	 *            The evaluator to use.
+	 * @param runs
+	 *            The number of evaluations to perform.
+	 * @param singleThread
+	 *            Whether or not to run the benchmark in multi-threaded mode.
+	 */
 	public EvaluationBenchmarker(Evaluator evaluator, int runs) {
 		this(evaluator, runs, false);
 	}
