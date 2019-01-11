@@ -198,6 +198,12 @@ public class Poker {
 	 * example, "TJs" would produce TJ of hearts, spaces, clubs and diamonds
 	 * only. Conversely "TJo" would produce only off-suited hands.
 	 * </p>
+     *
+     * <p>
+     * Incremental ranges are also allowed with the "+" modifier. For example,
+     * "AJs+" will create all suited variants of AJ, AQ and AK, while "JJ+"
+     * will create all pocket pairs combinations of JJ, QQ, KK and AA.
+     * </p>
 	 * 
 	 * @param shorthand
 	 *            The shorthand to use to generate the hands.
@@ -206,6 +212,11 @@ public class Poker {
 	 */
 	public static Collection<Hand> handGroup(String shorthand) {
 		List<Hand> hands = new ArrayList<>();
+
+		if (shorthand.length() > 4) {
+		    throw new IllegalArgumentException(
+                    "Input argument isn't correct");
+        }
 
 		/*
 		 * Find the numeric values of the card labels provided.
@@ -219,46 +230,73 @@ public class Poker {
 				b = i;
 			}
 		}
-		int length = shorthand.length();
 
-		/*
-		 * Include suited hands if we have not specified any specific suit
-		 * information or if we have specified to include suited hands.
-		 */
-		if (length == 2 || (length == 3 && shorthand.charAt(2) == 's')) {
-			if (a != b) {
-				for (Suit suit : Suit.values()) {
-					hands.add(hand(card(a, suit), card(b, suit)));
+		if ((a != Card.ACE && a < b) || b == Card.ACE) { // Check value order to always have the highest card first
+		    int c = a;
+		    a = b;
+		    b = c;
+        }
+
+		int length = shorthand.length();
+		boolean isPocketPair = a == b;
+
+		if (shorthand.contains("+")) {
+			int highestValue = isPocketPair || a == Card.ACE? Card.KING + 1 : a;
+
+            for (int currentValue = b; currentValue < highestValue; currentValue++) {
+                char firstLabel = isPocketPair? Card.LABEL[currentValue] : Card.LABEL[a];
+                char secondLabel = Card.LABEL[currentValue];
+				StringBuilder newShorthand = new StringBuilder().append(firstLabel).append(secondLabel);
+				if (length == 4) {
+					newShorthand.append(shorthand.charAt(2));
 				}
-			} else if (length == 3) {
-				throw new IllegalArgumentException(
-						"A hand cannot have identical cards of the same suit");
+				hands.addAll(handGroup(newShorthand.toString()));
+			}
+			if (isPocketPair) { // Add AA value
+				StringBuilder newShorthand = new StringBuilder().append(Card.LABEL[Card.ACE]).append(Card.LABEL[Card.ACE]);
+				hands.addAll(handGroup(newShorthand.toString()));
+			}
+		} else {
+
+			/*
+			 * Include suited hands if we have not specified any specific suit
+			 * information or if we have specified to include suited hands.
+			 */
+			if (length == 2 || (length == 3 && shorthand.charAt(2) == 's')) {
+				if (a != b) {
+					for (Suit suit : Suit.values()) {
+						hands.add(hand(card(a, suit), card(b, suit)));
+					}
+				} else if (length == 3) {
+					throw new IllegalArgumentException(
+							"A hand cannot have identical cards of the same suit");
+				}
+
 			}
 
-		}
-
-		/*
-		 * Included non-suited hands if we have not specified any specific suit
-		 * information or if we have specified to include non-suited hands.
-		 */
-		if (length == 2 || (length == 3 && shorthand.charAt(2) == 'o')) {
-			
 			/*
-			 * Add all off-suit combinations of the provided hand.
+			 * Included non-suited hands if we have not specified any specific suit
+			 * information or if we have specified to include non-suited hands.
 			 */
-			for (Suit[] suits : Constants.OFFSUIT_COMBINATIONS) {
-				Hand h = hand(card(a, suits[0]), card(b, suits[1]));
-				
-				if (!hands.contains(h)) {
-					hands.add(hand(card(a, suits[0]), card(b, suits[1])));
-				}
-				
+			if (length == 2 || (length == 3 && shorthand.charAt(2) == 'o')) {
+
 				/*
-				 * We only need to reverse the suits if A and B aren't
-				 * equivalent.
+				 * Add all off-suit combinations of the provided hand.
 				 */
-				if (a != b) {
-					hands.add(hand(card(a, suits[1]), card(b, suits[0])));
+				for (Suit[] suits : Constants.OFFSUIT_COMBINATIONS) {
+					Hand h = hand(card(a, suits[0]), card(b, suits[1]));
+
+					if (!hands.contains(h)) {
+						hands.add(hand(card(a, suits[0]), card(b, suits[1])));
+					}
+
+					/*
+					 * We only need to reverse the suits if A and B aren't
+					 * equivalent.
+					 */
+					if (a != b) {
+						hands.add(hand(card(a, suits[1]), card(b, suits[0])));
+					}
 				}
 			}
 		}

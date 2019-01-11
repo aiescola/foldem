@@ -30,6 +30,33 @@ public class TestRange {
 		range.define(0.6, hand("AsAh"));
 		assertEquals(0.6, range.weight(hand("AsAh")), 0.0);
 	}
+
+	@Test
+	public void testHandGroups() {
+        Range suitedCombos = range().define(handGroup("JTs"));
+        Range pocketPairCombos = range().define(handGroup("88"));
+        Range offSuitedCombos = range().define(handGroup("JTo"));
+        Range handCombos = range().define(handGroup("JT"));
+
+        Range suitedIncrementalCombos = range().define(handGroup("AJs+"));
+        Range offSuitedIncrementalCombos = range().define(handGroup("KJo+"));
+        Range pairedIncrementalCombos = range().define(handGroup("99+"));
+
+        Range revertedCombo = range().define(handGroup("JAs"));
+        Range revertedIncrementalCombo = range().define(handGroup("JAs+"));
+
+		assertEquals(4, suitedCombos.all().size());
+        assertEquals(6, pocketPairCombos.all().size());
+        assertEquals(12, offSuitedCombos.all().size());
+        assertEquals(16, handCombos.all().size());
+
+		assertEquals(12, suitedIncrementalCombos.all().size());
+		assertEquals(24, offSuitedIncrementalCombos.all().size());
+		assertEquals(36, pairedIncrementalCombos.all().size());
+
+		assertEquals(4, revertedCombo.all().size());
+		assertEquals(12, revertedIncrementalCombo.all().size());
+	}
 	
 	@Test
 	public void testNoDuplicateOnRedefinition() {
