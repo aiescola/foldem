@@ -40,526 +40,561 @@ import codes.derive.foldem.util.RandomContext;
  */
 public class Poker {
 
-	private Poker() { /* No external instantiation */ }
+    private Poker() { /* No external instantiation */ }
 
-	/**
-	 * Constructs a {@link Card} with the specified card value and suit.
-	 * 
-	 * @param value
-	 *            The card value, must be one of the card value constants
-	 *            defined in {@link Card}.
-	 * @param suit
-	 *            The suit.
-	 * @return A new {@link Card} with the specified value and suit.
-	 */
-	public static Card card(int value, Suit suit) {
-		return new Card(value, suit);
-	}
+    /**
+     * Constructs a {@link Card} with the specified card value and suit.
+     *
+     * @param value The card value, must be one of the card value constants
+     *              defined in {@link Card}.
+     * @param suit  The suit.
+     * @return A new {@link Card} with the specified value and suit.
+     */
+    public static Card card(int value, Suit suit) {
+        return new Card(value, suit);
+    }
 
-	/**
-	 * Constructs a new {@link Card} using the specified shorthand string. For
-	 * information on the shorthand format see
-	 * {@link codes.derive.foldem.Card#Card(String)}.
-	 * 
-	 * @param text
-	 *            The shorthand for the card.
-	 * @return A new {@link Card} using the specified shorthand.
-	 * @see codes.derive.foldem.Card#Card(String)
-	 */
-	public static Card card(String text) {
-		return new Card(text);
-	}
+    /**
+     * Constructs a new {@link Card} using the specified shorthand string. For
+     * information on the shorthand format see
+     * {@link codes.derive.foldem.Card#Card(String)}.
+     *
+     * @param text The shorthand for the card.
+     * @return A new {@link Card} using the specified shorthand.
+     * @see codes.derive.foldem.Card#Card(String)
+     */
+    public static Card card(String text) {
+        return new Card(text);
+    }
 
-	/**
-	 * Constructs a new {@link Card} dealt from the specified {@link Deck}.
-	 * 
-	 * <p>
-	 * Alias for {@link Deck#pop()}.
-	 * </p>
-	 * 
-	 * @param deck
-	 *            The deck to deal from
-	 * @return The {@link Card} dealt from the specified deck.
-	 */
-	public static Card card(Deck deck) {
-		return deck.pop();
-	}
-
-	/**
-	 * Constructs a new {@link java.util.Collection} containing an unordered
-	 * enumeration of all cards.
-	 * 
-	 * @return A {@link java.util.Collection} containing every {@link Card}, in
-	 *         no specific order.
-	 */
-	public static Collection<Card> cards() {
-		List<Card> cards = new ArrayList<>();
-		for (Suit suit : Suit.values()) {
-			for (int value = Card.ACE; value <= Card.KING; value++) {
-				cards.add(new Card(value, suit));
-			}
-		}
-		return cards;
-	}
-
-	/**
-	 * Creates a {@link java.util.Collection} containing cards for the specified
-	 * sequential shorthand. for example, "Ac2d3h4s", would return a
-	 * {@link java.util.Collection} containing the ace of spades, deuce of
-	 * diamonds, trey of hearts, and the four of spaces.
-	 * 
-	 * @param shorthand
-	 *            The shorthand.
-	 * @return A {@link java.util.Collection} containing the created cards.
-	 */
-	public static Collection<Card> cards(String shorthand) {
-		if (shorthand.length() % 2 != 0) {
-			throw new IllegalArgumentException("Invalid shorthand");
-		}
-		List<Card> cards = new ArrayList<>();
-		for (int i = 0; i < shorthand.length(); i += 2) {
-			cards.add(card(shorthand.substring(i, i + 2)));
-		}
-		return cards;
-	}
-
-	/**
-	 * Constructs a new {@link Hand} using the specified cards.
-	 * 
-	 * @param cards
-	 *            The cards to use in the created hand.
-	 * @return A new hand using the specified cards.
-	 */
-	public static Hand hand(Card... cards) {
-		return new Hand(cards);
-	}
-
-	/**
-	 * Constructs a new {@link Hand} by dealing it from the specified
-	 * {@link Deck}.
-	 * 
-	 * @param deck
-	 *            The deck to deal the hand from.
-	 * @return A {@link Hand} containing cards dealt from the specified deck.
-	 */
-	public static Hand hand(Deck deck) {
-		return hand(deck.pop(), deck.pop());
-	}
-
-	/**
-	 * Constructs a new {@link Hand} using specified cards shorthand text. For
-	 * information on the format see
-	 * {@link codes.derive.foldem.Hand#Hand(String)}.
-	 * 
-	 * @param cards
-	 *            The shorthand text.
-	 * @return A new hand using the specified shorthand text.
-	 */
-	public static Hand hand(String cards) {
-		return new Hand(cards);
-	}
-
-	/**
-	 * Constructs a new {@link java.util.Collection} containing an unordered
-	 * enumeration of all hands.
-	 * 
-	 * @return A {@link java.util.Collection} containing every possible
-	 *         {@link Hand}, in no specific order.
-	 * 
-	 */
-	public static Collection<Hand> hands() {
-		List<Hand> hands = new ArrayList<>();
-		for (Card a : cards()) {
-			for (Card b : cards()) {
-				Hand h = hand(a, b);
-				if (a.equals(b) || hands.contains(h)) {
-					continue;
-				}
-				hands.add(h);
-			}
-		}
-		return hands;
-	}
-	
-	/**
-	 * Constructs a new {@link java.util.Collection} containing a group of hands
-	 * specified by shorthand with no suit information.
-	 * 
-	 * <p>
-	 * The syntax is the same as creating hands, except you do not need to
-	 * specify suit information, a hand with each combination of suits will be
-	 * created for you. For example, shorthand "TT" would produce every
-	 * combination of a hand containing two tens in
-	 * </p>
-	 * 
-	 * <p>
-	 * Additionally, you can specify hands be suited using the "s" modifier.
-	 * This will produce only suited combinations of the specified hand. For
-	 * example, "TJs" would produce TJ of hearts, spaces, clubs and diamonds
-	 * only. Conversely "TJo" would produce only off-suited hands.
-	 * </p>
+    /**
+     * Constructs a new {@link Card} dealt from the specified {@link Deck}.
      *
      * <p>
-     * Incremental ranges are also allowed with the "+" modifier. For example,
+     * Alias for {@link Deck#pop()}.
+     * </p>
+     *
+     * @param deck The deck to deal from
+     * @return The {@link Card} dealt from the specified deck.
+     */
+    public static Card card(Deck deck) {
+        return deck.pop();
+    }
+
+    /**
+     * Constructs a new {@link java.util.Collection} containing an unordered
+     * enumeration of all cards.
+     *
+     * @return A {@link java.util.Collection} containing every {@link Card}, in
+     * no specific order.
+     */
+    public static Collection<Card> cards() {
+        List<Card> cards = new ArrayList<>();
+        for (Suit suit : Suit.values()) {
+            for (int value = Card.ACE; value <= Card.KING; value++) {
+                cards.add(new Card(value, suit));
+            }
+        }
+        return cards;
+    }
+
+    /**
+     * Creates a {@link java.util.Collection} containing cards for the specified
+     * sequential shorthand. for example, "Ac2d3h4s", would return a
+     * {@link java.util.Collection} containing the ace of spades, deuce of
+     * diamonds, trey of hearts, and the four of spaces.
+     *
+     * @param shorthand The shorthand.
+     * @return A {@link java.util.Collection} containing the created cards.
+     */
+    public static Collection<Card> cards(String shorthand) {
+        if (shorthand.length() % 2 != 0) {
+            throw new IllegalArgumentException("Invalid shorthand");
+        }
+        List<Card> cards = new ArrayList<>();
+        for (int i = 0; i < shorthand.length(); i += 2) {
+            cards.add(card(shorthand.substring(i, i + 2)));
+        }
+        return cards;
+    }
+
+    /**
+     * Constructs a new {@link Hand} using the specified cards.
+     *
+     * @param cards The cards to use in the created hand.
+     * @return A new hand using the specified cards.
+     */
+    public static Hand hand(Card... cards) {
+        return new Hand(cards);
+    }
+
+    /**
+     * Constructs a new {@link Hand} by dealing it from the specified
+     * {@link Deck}.
+     *
+     * @param deck The deck to deal the hand from.
+     * @return A {@link Hand} containing cards dealt from the specified deck.
+     */
+    public static Hand hand(Deck deck) {
+        return hand(deck.pop(), deck.pop());
+    }
+
+    /**
+     * Constructs a new {@link Hand} using specified cards shorthand text. For
+     * information on the format see
+     * {@link codes.derive.foldem.Hand#Hand(String)}.
+     *
+     * @param cards The shorthand text.
+     * @return A new hand using the specified shorthand text.
+     */
+    public static Hand hand(String cards) {
+        return new Hand(cards);
+    }
+
+    /**
+     * Constructs a new {@link java.util.Collection} containing an unordered
+     * enumeration of all hands.
+     *
+     * @return A {@link java.util.Collection} containing every possible
+     * {@link Hand}, in no specific order.
+     */
+    public static Collection<Hand> hands() {
+        List<Hand> hands = new ArrayList<>();
+        for (Card a : cards()) {
+            for (Card b : cards()) {
+                Hand h = hand(a, b);
+                if (a.equals(b) || hands.contains(h)) {
+                    continue;
+                }
+                hands.add(h);
+            }
+        }
+        return hands;
+    }
+
+    public static Collection<Hand> fromShorthandRange(String shorthand) {
+        List<Hand> hands = new ArrayList<>();
+
+        String sh = shorthand.replace(" ", "");
+        String subranges[] = sh.split(",");
+        for (int index = 0; index < subranges.length; index++) {
+            hands.addAll(handGroup(subranges[index]));
+        }
+
+        return hands;
+    }
+
+    /**
+     * Constructs a new {@link java.util.Collection} containing a group of hands
+     * specified by shorthand with no suit information.
+     *
+     * <p>
+     * The syntax is the same as creating hands, except you do not need to
+     * specify suit information, a hand with each combination of suits will be
+     * created for you. For example, shorthand "TT" would produce every
+     * combination of a hand containing two tens in
+     * </p>
+     *
+     * <p>
+     * Additionally, you can specify hands be suited using the "s" modifier.
+     * This will produce only suited combinations of the specified hand. For
+     * example, "TJs" would produce TJ of hearts, spaces, clubs and diamonds
+     * only. Conversely "TJo" would produce only off-suited hands.
+     * </p>
+     *
+     * <p>
+     * Incremental ranges are also allowed with the '+' modifier. For example,
      * "AJs+" will create all suited variants of AJ, AQ and AK, while "JJ+"
      * will create all pocket pairs combinations of JJ, QQ, KK and AA.
      * </p>
-	 * 
-	 * @param shorthand
-	 *            The shorthand to use to generate the hands.
-	 * @return A new {@link java.util.Collection} containing the hands specified
-	 *         in shorthand format.
-	 */
-	public static Collection<Hand> handGroup(String shorthand) {
-		List<Hand> hands = new ArrayList<>();
+     *
+     * <p>
+     * Interval ranges can be defined by a '-' character. For example:
+     * "22-88", which would return the 42 paired combos or "A2s-A5s",
+     * which would return the 16 suited combos.
+     * </p>
+     *
+     * @param shorthand The shorthand to use to generate the hands.
+     * @return A new {@link java.util.Collection} containing the hands specified
+     * in shorthand format.
+     */
+    public static Collection<Hand> handGroup(String shorthand) {
+        List<Hand> hands = new ArrayList<>();
 
-		if (shorthand.length() > 4) {
-		    throw new IllegalArgumentException(
-                    "Input argument isn't correct");
+        /*
+         * Find the numeric values of the card labels provided.
+         */
+        int a = Card.fromLabelToValue(shorthand.charAt(0));
+        int b = Card.fromLabelToValue(shorthand.charAt(1));
+
+        if ((a != Card.ACE && a < b) || b == Card.ACE) { // Check value order to always have the highest card first
+            int aux = a;
+            a = b;
+            b = aux;
         }
 
-		/*
-		 * Find the numeric values of the card labels provided.
-		 */
-		int a = -1, b = -1;
-		for (int i = 0; i < Card.LABEL.length; i++) {
-			if (Card.LABEL[i] == shorthand.charAt(0)) {
-				a = i;
-			}
-			if (Card.LABEL[i] == shorthand.charAt(1)) {
-				b = i;
-			}
-		}
+        if (shorthand.contains("-")) {
+            hands.addAll(parseInterval(shorthand, a, b));
+        } else if (shorthand.contains("+")) {
+            hands.addAll(parsePlusHand(shorthand, a, b));
+        } else {
+            hands.addAll(parseSimpleHand(shorthand, a, b));
 
-		if ((a != Card.ACE && a < b) || b == Card.ACE) { // Check value order to always have the highest card first
-		    int c = a;
-		    a = b;
-		    b = c;
+        }
+        return hands;
+    }
+
+    private static List<Hand> parseInterval(String shorthand, int firstCardValue, int secondCardStartValue) {
+        List<Hand> hands = new ArrayList<>();
+
+        String splitted[] = shorthand.split("-");
+        boolean isPocketPair = firstCardValue == secondCardStartValue;
+        if (!isPocketPair &&
+                splitted[0].charAt(0) != splitted[1].charAt(0)) {
+            throw new IllegalArgumentException(
+                    "First card of the ending interval must be the same as the starting interval if it's not a pocket pair");
         }
 
-		int length = shorthand.length();
-		boolean isPocketPair = a == b;
+        int secondCardEndValue = Card.fromLabelToValue(splitted[1].charAt(1));
+        if (secondCardEndValue < secondCardStartValue) {
+            int aux = secondCardEndValue;
+            secondCardEndValue = secondCardStartValue;
+            secondCardStartValue = aux;
+        }
 
-		if (shorthand.contains("+")) {
-			int highestValue = isPocketPair || a == Card.ACE? Card.KING + 1 : a;
+        char firstLabel = Card.LABEL[firstCardValue];
+        for (int currentValue = secondCardStartValue; currentValue <= secondCardEndValue; currentValue++) {
+            int newFirstCardValue = isPocketPair? currentValue : firstCardValue;
+            char secondLabel = Card.LABEL[currentValue];
+            String newShorthand = "";
+            if (isPocketPair) {
+                newShorthand += "" + secondLabel + secondLabel;
+            } else {
+                newShorthand += "" + firstLabel + secondLabel;
+            }
+            if (shorthand.contains("s") || shorthand.contains("o")) {
+                newShorthand += shorthand.charAt(2);
+            }
+            hands.addAll(parseSimpleHand(newShorthand, newFirstCardValue, currentValue));
 
-            for (int currentValue = b; currentValue < highestValue; currentValue++) {
-                char firstLabel = isPocketPair? Card.LABEL[currentValue] : Card.LABEL[a];
-                char secondLabel = Card.LABEL[currentValue];
-				StringBuilder newShorthand = new StringBuilder().append(firstLabel).append(secondLabel);
-				if (length == 4) {
-					newShorthand.append(shorthand.charAt(2));
-				}
-				hands.addAll(handGroup(newShorthand.toString()));
-			}
-			if (isPocketPair) { // Add AA value
-				StringBuilder newShorthand = new StringBuilder().append(Card.LABEL[Card.ACE]).append(Card.LABEL[Card.ACE]);
-				hands.addAll(handGroup(newShorthand.toString()));
-			}
-		} else {
+        }
 
-			/*
-			 * Include suited hands if we have not specified any specific suit
-			 * information or if we have specified to include suited hands.
-			 */
-			if (length == 2 || (length == 3 && shorthand.charAt(2) == 's')) {
-				if (a != b) {
-					for (Suit suit : Suit.values()) {
-						hands.add(hand(card(a, suit), card(b, suit)));
-					}
-				} else if (length == 3) {
-					throw new IllegalArgumentException(
-							"A hand cannot have identical cards of the same suit");
-				}
+        return hands;
+    }
 
-			}
+    private static List<Hand> parsePlusHand(String shorthand, int firstCardValue, int secondCardValue) {
+        List<Hand> hands = new ArrayList<>();
+        int length = shorthand.length();
+        boolean isPocketPair = firstCardValue == secondCardValue;
 
-			/*
-			 * Included non-suited hands if we have not specified any specific suit
-			 * information or if we have specified to include non-suited hands.
-			 */
-			if (length == 2 || (length == 3 && shorthand.charAt(2) == 'o')) {
+        int highestValue = isPocketPair || firstCardValue == Card.ACE ? Card.KING + 1 : firstCardValue;
 
-				/*
-				 * Add all off-suit combinations of the provided hand.
-				 */
-				for (Suit[] suits : Constants.OFFSUIT_COMBINATIONS) {
-					Hand h = hand(card(a, suits[0]), card(b, suits[1]));
+        for (int currentValue = secondCardValue; currentValue < highestValue; currentValue++) {
+            int newA = isPocketPair ? currentValue : firstCardValue;
+            char firstLabel = isPocketPair ? Card.LABEL[currentValue] : Card.LABEL[firstCardValue];
+            char secondLabel = Card.LABEL[currentValue];
+            String newShorthand = "" + firstLabel + secondLabel;
+            if (length == 4) {
+                // Add the offsuited or suited character
+                newShorthand += shorthand.charAt(2);
+            }
+            hands.addAll(parseSimpleHand(newShorthand, newA, currentValue));
+        }
+        if (isPocketPair) { // Add AA value
+            StringBuilder newShorthand = new StringBuilder().append(Card.LABEL[Card.ACE]).append(Card.LABEL[Card.ACE]);
+            hands.addAll(handGroup(newShorthand.toString()));
+        }
 
-					if (!hands.contains(h)) {
-						hands.add(hand(card(a, suits[0]), card(b, suits[1])));
-					}
+        return hands;
+    }
 
-					/*
-					 * We only need to reverse the suits if A and B aren't
-					 * equivalent.
-					 */
-					if (a != b) {
-						hands.add(hand(card(a, suits[1]), card(b, suits[0])));
-					}
-				}
-			}
-		}
-		return hands;
-	}
+    private static List<Hand> parseSimpleHand(String shorthand, int a, int b) {
+        List<Hand> hands = new ArrayList<>();
+        int length = shorthand.length();
 
-	/**
-	 * Constructs a new {@link Range} with no hands.
-	 * 
-	 * @return A new empty {@link Range}.
-	 */
-	public static Range range() {
-		return new Range();
-	}
+        /*
+         * Include suited hands if we have not specified any specific suit
+         * information or if we have specified to include suited hands.
+         */
+        if (length == 2 || (length == 3 && shorthand.charAt(2) == 's')) {
+            if (a != b) {
+                for (Suit suit : Suit.values()) {
+                    hands.add(hand(card(a, suit), card(b, suit)));
+                }
+            } else if (length == 3) {
+                throw new IllegalArgumentException(
+                        "A hand cannot have identical cards of the same suit");
+            }
 
-	/**
-	 * Constructs a new {@link Range} with the specified hands.
-	 * 
-	 * @param hands
-	 *            The hands.
-	 * @return The new {@link Range} containing the specified hands.
-	 */
-	public static Range range(Hand... hands) {
-		return range().define(hands);
+        }
 
-	}
+        /*
+         * Included non-suited hands if we have not specified any specific suit
+         * information or if we have specified to include non-suited hands.
+         */
+        if (length == 2 || (length == 3 && shorthand.charAt(2) == 'o')) {
 
-	/**
-	 * Constructs a new {@link Board} using the specified cards.
-	 * 
-	 * <p>
-	 * Alias for {@link Boards#board(Card...)}.
-	 * </p>
-	 * 
-	 * @param cards
-	 *            The cards to use.
-	 * @return A new {@link Board} using the specified cards.
-	 */
-	public static Board board(Card... cards) {
-		return Boards.board(cards);
-	}
+            /*
+             * Add all off-suit combinations of the provided hand.
+             */
+            for (Suit[] suits : Constants.OFFSUIT_COMBINATIONS) {
+                Hand h = hand(card(a, suits[0]), card(b, suits[1]));
 
-	/**
-	 * Constructs a new {@link Board} using the specified card shorthand.
-	 * 
-	 * <p>
-	 * Alias for {@link Boards#board(String)}.
-	 * </p>
-	 * 
-	 * @param cards
-	 *            The cards shorthand, see {@link Boards#board(String)} for
-	 *            information on formatting.
-	 * @return A new {@link Board} using the specified cards.
-	 */
-	public static Board board(String cards) {
-		return Boards.board(cards);
-	}
+                if (!hands.contains(h)) {
+                    hands.add(hand(card(a, suits[0]), card(b, suits[1])));
+                }
 
-	/**
-	 * Constructs a new {@link Board}, dealing the cards from the specified
-	 * {@link Deck}.
-	 * 
-	 * <p>
-	 * Alias for {@link Boards#board(Deck, Street)}
-	 * </p>
-	 * 
-	 * @param deck
-	 *            The deck to deal from.
-	 * @param street
-	 *            The street to deal.
-	 * @return A new {@link Board} using cards from the specified {@link Deck}.
-	 */
-	public static Board board(Deck deck, Street street) {
-		return Boards.board(deck, street);
-	}
+                /*
+                 * We only need to reverse the suits if A and B aren't
+                 * equivalent.
+                 */
+                if (a != b) {
+                    hands.add(hand(card(a, suits[1]), card(b, suits[0])));
+                }
+            }
+        }
 
-	/**
-	 * Constructs a new {@link Deck}.
-	 * 
-	 * @return A new {@link Deck} with no cards drawn.
-	 */
-	public static Deck deck() {
-		return new Deck();
-	}
+        return hands;
+    }
 
-	/**
-	 * Constructs a new {@link Deck} and shuffles it.
-	 * 
-	 * @return A new shuffled {@link Deck} with no cards drawn.
-	 */
-	public static Deck shuffledDeck() {
-		return new Deck().shuffle(RandomContext.get());
-	}
+    /**
+     * Constructs a new {@link Range} with no hands.
+     *
+     * @return A new empty {@link Range}.
+     */
+    public static Range range() {
+        return new Range();
+    }
 
-	/**
-	 * Finds the value of the specified {@link Hand} on the specified
-	 * {@link Board}.
-	 * 
-	 * @param hand
-	 *            The hand.
-	 * @param board
-	 *            The board.
-	 * @return The specified hand's value on the specified board.
-	 */
-	public static HandValue value(Hand hand, Board board) {
-		return new DefaultEvaluator().value(hand, board);
-	}
+    /**
+     * Constructs a new {@link Range} with the specified hands.
+     *
+     * @param hands The hands.
+     * @return The new {@link Range} containing the specified hands.
+     */
+    public static Range range(Hand... hands) {
+        return range().define(hands);
 
-	/**
-	 * Obtains the equity that the specified hands have against each other,
-	 * returning them as keys mapped to their calculated equity.
-	 * 
-	 * @param hands
-	 *            The hands to calculate equity for.
-	 * @return The hands mapped to their calculated equity.
-	 */
-	public static Map<Hand, Equity> equity(Hand... hands) {
-		return calculationBuilder().calculate(hands);
-	}
+    }
 
-	/**
-	 * Obtains the equity that the specified hands have against each other on
-	 * the specified board, returning them as keys mapped to their calculated
-	 * equity.
-	 * 
-	 * @param board
-	 *            The board to calculate equity on.
-	 * @param hands
-	 *            The hands to calculate equity for.
-	 * @return The hands mapped to their calculated equity.
-	 */
-	public static Map<Hand, Equity> equity(Board board, Hand... hands) {
-		return calculationBuilder().useBoard(board).calculate(hands);
-	}
+    /**
+     * Constructs a new {@link Board} using the specified cards.
+     *
+     * <p>
+     * Alias for {@link Boards#board(Card...)}.
+     * </p>
+     *
+     * @param cards The cards to use.
+     * @return A new {@link Board} using the specified cards.
+     */
+    public static Board board(Card... cards) {
+        return Boards.board(cards);
+    }
 
-	/**
-	 * Obtains the equity that the specified hand ranges have against each
-	 * other, returning them as keys mapped to their calculated equity.
-	 * 
-	 * @param ranges
-	 *            The hand ranges to calculate equity for.
-	 * @return The hand ranges mapped to their calculated equity.
-	 */
-	public static Map<Range, Equity> equity(Range... ranges) {
-		return calculationBuilder().calculate(ranges);
-	}
+    /**
+     * Constructs a new {@link Board} using the specified card shorthand.
+     *
+     * <p>
+     * Alias for {@link Boards#board(String)}.
+     * </p>
+     *
+     * @param cards The cards shorthand, see {@link Boards#board(String)} for
+     *              information on formatting.
+     * @return A new {@link Board} using the specified cards.
+     */
+    public static Board board(String cards) {
+        return Boards.board(cards);
+    }
 
-	/**
-	 * Obtains the equity that the specified hand ranges have against each other
-	 * on the specified board, returning them as keys mapped to their calculated
-	 * equity.
-	 * 
-	 * @param board
-	 *            The board to calculate equity on.
-	 * @param ranges
-	 *            The hand ranges to calculate equity for
-	 * @return The hand ranges mapped to their calculated equity.
-	 */
-	public static Map<Range, Equity> equity(Board board, Range... ranges) {
-		return calculationBuilder().useBoard(board).calculate(ranges);
-	}
+    /**
+     * Constructs a new {@link Board}, dealing the cards from the specified
+     * {@link Deck}.
+     *
+     * <p>
+     * Alias for {@link Boards#board(Deck, Street)}
+     * </p>
+     *
+     * @param deck   The deck to deal from.
+     * @param street The street to deal.
+     * @return A new {@link Board} using cards from the specified {@link Deck}.
+     */
+    public static Board board(Deck deck, Street street) {
+        return Boards.board(deck, street);
+    }
 
-	/**
-	 * Formats the {@link Suit} specified using pretty formatting. Is an alias
-	 * for {@link codes.derive.foldem.util.PrettyFormat#get(Suit)}
-	 * 
-	 * @param suit
-	 *            The {@link Suit} to format.
-	 * @return A pretty formatted {@link String} representing the specified {@link Suit}
-	 *         .
-	 */
-	public static char format(Suit suit) {
-		return PrettyFormat.get(suit);
-	}
+    /**
+     * Constructs a new {@link Deck}.
+     *
+     * @return A new {@link Deck} with no cards drawn.
+     */
+    public static Deck deck() {
+        return new Deck();
+    }
 
-	/**
-	 * Formats the {@link Card} specified using pretty formatting. Is an alias
-	 * for {@link codes.derive.foldem.util.PrettyFormat#get(Card)}
-	 * 
-	 * @param card
-	 *            The {@link Card} to format.
-	 * @return A pretty formatted {@link String} representing the specified {@link Card}
-	 *         .
-	 */
-	public static String format(Card card) {
-		return PrettyFormat.get(card);
-	}
+    /**
+     * Constructs a new {@link Deck} and shuffles it.
+     *
+     * @return A new shuffled {@link Deck} with no cards drawn.
+     */
+    public static Deck shuffledDeck() {
+        return new Deck().shuffle(RandomContext.get());
+    }
 
-	/**
-	 * Formats the {@link Hand} specified using pretty formatting. Is an alias for
-	 * {@link codes.derive.foldem.util.PrettyFormat#get(Hand)}
-	 * 
-	 * @param hand
-	 *            The hand to format.
-	 * @return A pretty formatted {@link String} representing the specified {@link Hand}.
-	 */
-	public static String format(Hand hand) {
-		return PrettyFormat.get(hand);
-	}
+    /**
+     * Finds the value of the specified {@link Hand} on the specified
+     * {@link Board}.
+     *
+     * @param hand  The hand.
+     * @param board The board.
+     * @return The specified hand's value on the specified board.
+     */
+    public static HandValue value(Hand hand, Board board) {
+        return new DefaultEvaluator().value(hand, board);
+    }
 
-	/**
-	 * Formats the {@link Board} specified using pretty formatting. Is an alias
-	 * for {@link codes.derive.foldem.util.PrettyFormat#get(Board)}
-	 * 
-	 * @param board
-	 *            The {@link Board} to format.
-	 * @return A pretty formatted string representing the specified {@link Board}.
-	 */
-	public static String format(Board board) {
-		return PrettyFormat.get(board);
-	}
+    /**
+     * Obtains the equity that the specified hands have against each other,
+     * returning them as keys mapped to their calculated equity.
+     *
+     * @param hands The hands to calculate equity for.
+     * @return The hands mapped to their calculated equity.
+     */
+    public static Map<Hand, Equity> equity(Hand... hands) {
+        return calculationBuilder().calculate(hands);
+    }
 
-	/**
-	 * Formats the {@link Equity} specified using percentages.
-	 * 
-	 * @param equity
-	 *            The equity to format.
-	 * @return A string containing the w/l/s in a format of
-	 *         "Win: ww.ww% Lose: ll.ll% Split: ss.ss%".
-	 */
-	public static String format(Equity equity) {
-		StringBuilder b = new StringBuilder();
-		b.append("Win: ").append(percent(equity.win())).append("% ");
-		b.append("Lose: ").append(percent(equity.lose())).append("% ");
-		b.append("Split: ").append(percent(equity.split())).append("%");
-		return b.toString();
-	}
+    /**
+     * Obtains the equity that the specified hands have against each other on
+     * the specified board, returning them as keys mapped to their calculated
+     * equity.
+     *
+     * @param board The board to calculate equity on.
+     * @param hands The hands to calculate equity for.
+     * @return The hands mapped to their calculated equity.
+     */
+    public static Map<Hand, Equity> equity(Board board, Hand... hands) {
+        return calculationBuilder().useBoard(board).calculate(hands);
+    }
 
-	/**
-	 * Represents the specified decimal as a percentage rounded to two decimal
-	 * places.
-	 * 
-	 * @param d
-	 *            The decimal to convert.
-	 * @return The percentage.
-	 */
-	public static double percent(double d) {
-		return new BigDecimal(d * 100).setScale(2, RoundingMode.HALF_UP)
-				.doubleValue();
-	}
+    /**
+     * Obtains the equity that the specified hand ranges have against each
+     * other, returning them as keys mapped to their calculated equity.
+     *
+     * @param ranges The hand ranges to calculate equity for.
+     * @return The hand ranges mapped to their calculated equity.
+     */
+    public static Map<Range, Equity> equity(Range... ranges) {
+        return calculationBuilder().calculate(ranges);
+    }
 
-	/**
-	 * Constructs a new evaluator using the {@link DefaultEvaluator} type
-	 * provided with this library.
-	 * 
-	 * <p>
-	 * Alias for {@link DefaultEvaluator#DefaultEvaluator}
-	 * </p>
-	 * 
-	 * @return An evaluator.
-	 */
-	public static Evaluator evaluator() {
-		return new DefaultEvaluator();
-	}
+    /**
+     * Obtains the equity that the specified hand ranges have against each other
+     * on the specified board, returning them as keys mapped to their calculated
+     * equity.
+     *
+     * @param board  The board to calculate equity on.
+     * @param ranges The hand ranges to calculate equity for
+     * @return The hand ranges mapped to their calculated equity.
+     */
+    public static Map<Range, Equity> equity(Board board, Range... ranges) {
+        return calculationBuilder().useBoard(board).calculate(ranges);
+    }
 
-	/**
-	 * Constructs a new {@link EquityCalculationBuilder}.
-	 * 
-	 * @return A new {@link EquityCalculationBuilder} for use in equity
-	 *         calculations.
-	 */
-	public static EquityCalculationBuilder calculationBuilder() {
-		return new EquityCalculationBuilder();
-	}
+    /**
+     * Formats the {@link Suit} specified using pretty formatting. Is an alias
+     * for {@link codes.derive.foldem.util.PrettyFormat#get(Suit)}
+     *
+     * @param suit The {@link Suit} to format.
+     * @return A pretty formatted {@link String} representing the specified {@link Suit}
+     * .
+     */
+    public static char format(Suit suit) {
+        return PrettyFormat.get(suit);
+    }
+
+    /**
+     * Formats the {@link Card} specified using pretty formatting. Is an alias
+     * for {@link codes.derive.foldem.util.PrettyFormat#get(Card)}
+     *
+     * @param card The {@link Card} to format.
+     * @return A pretty formatted {@link String} representing the specified {@link Card}
+     * .
+     */
+    public static String format(Card card) {
+        return PrettyFormat.get(card);
+    }
+
+    /**
+     * Formats the {@link Hand} specified using pretty formatting. Is an alias for
+     * {@link codes.derive.foldem.util.PrettyFormat#get(Hand)}
+     *
+     * @param hand The hand to format.
+     * @return A pretty formatted {@link String} representing the specified {@link Hand}.
+     */
+    public static String format(Hand hand) {
+        return PrettyFormat.get(hand);
+    }
+
+    /**
+     * Formats the {@link Board} specified using pretty formatting. Is an alias
+     * for {@link codes.derive.foldem.util.PrettyFormat#get(Board)}
+     *
+     * @param board The {@link Board} to format.
+     * @return A pretty formatted string representing the specified {@link Board}.
+     */
+    public static String format(Board board) {
+        return PrettyFormat.get(board);
+    }
+
+    /**
+     * Formats the {@link Equity} specified using percentages.
+     *
+     * @param equity The equity to format.
+     * @return A string containing the w/l/s in a format of
+     * "Win: ww.ww% Lose: ll.ll% Split: ss.ss%".
+     */
+    public static String format(Equity equity) {
+        StringBuilder b = new StringBuilder();
+        b.append("Win: ").append(percent(equity.win())).append("% ");
+        b.append("Lose: ").append(percent(equity.lose())).append("% ");
+        b.append("Split: ").append(percent(equity.split())).append("%");
+        return b.toString();
+    }
+
+    /**
+     * Represents the specified decimal as a percentage rounded to two decimal
+     * places.
+     *
+     * @param d The decimal to convert.
+     * @return The percentage.
+     */
+    public static double percent(double d) {
+        return new BigDecimal(d * 100).setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
+    }
+
+    /**
+     * Constructs a new evaluator using the {@link DefaultEvaluator} type
+     * provided with this library.
+     *
+     * <p>
+     * Alias for {@link DefaultEvaluator#DefaultEvaluator}
+     * </p>
+     *
+     * @return An evaluator.
+     */
+    public static Evaluator evaluator() {
+        return new DefaultEvaluator();
+    }
+
+    /**
+     * Constructs a new {@link EquityCalculationBuilder}.
+     *
+     * @return A new {@link EquityCalculationBuilder} for use in equity
+     * calculations.
+     */
+    public static EquityCalculationBuilder calculationBuilder() {
+        return new EquityCalculationBuilder();
+    }
 
 }

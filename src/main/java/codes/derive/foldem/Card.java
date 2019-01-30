@@ -24,7 +24,16 @@ public class Card {
 	/** Labels for cards. **/
 	public static final char[] LABEL = { 'A', '2', '3', '4', '5', '6', '7',
 			'8', '9', 'T', 'J', 'Q', 'K' };
-	
+
+	public static int fromLabelToValue(char label) {
+		for (int i = 0; i < LABEL.length; i++) {
+			if (label == LABEL[i]) {
+				return i;
+			}
+		}
+
+		return -1;
+	}
 	/*
 	 * I decided to do the enumeration like this instead of using an enum since
 	 * it simplifies string notation and also resolves namespace conflict for
